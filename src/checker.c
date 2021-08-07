@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/19 11:59:44 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2021/08/03 14:58:24 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2021/08/07 20:09:00 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,30 +40,6 @@ void	ps_print_sorted(t_list *stack_a, t_list *stack_b)
 	write(STDOUT_FILENO, "OK\n", 3);
 }
 
-#include "TMP.h"
-int tmp_main(int argc, char **argv) // tmp
-{
-	t_list	*stack_a;
-	t_list	*stack_b;
-	int		res;
-	char	*line;
-
-	stack_a = ps_init_stack(argc - 1, &argv[1]);
-	stack_b = NULL;
-	print_stacks(stack_a, stack_b);
-	res = get_next_line(STDIN_FILENO, &line);
-	while (res == 1)
-	{
-		ps_exec(line, &stack_a, &stack_b);
-		print_stacks(stack_a, stack_b);
-		res = get_next_line(STDIN_FILENO, &line);
-	}
-	if (res == -1)
-		ps_protect(NULL);
-	ps_print_sorted(stack_a, stack_b);
-	return (EXIT_SUCCESS);
-}
-
 int	main(int argc, char **argv)
 {
 	t_list	*stack_a;
@@ -72,7 +48,6 @@ int	main(int argc, char **argv)
 	int		res;
 	char	*line;
 
-	// return (tmp_main(argc, argv)); // tmp
 	stack_a = ps_init_stack(argc - 1, &argv[1]);
 	stack_b = NULL;
 	cmds = NULL;

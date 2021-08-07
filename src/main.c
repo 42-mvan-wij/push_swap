@@ -6,10 +6,11 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/03 14:59:22 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2021/08/07 16:58:48 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2021/08/07 20:09:40 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "libft.h"
 #include "utils.h"
 #include "indeces.h"
@@ -29,8 +30,7 @@ int	main(int argc, char *argv[])
 	stack_b = NULL;
 	ps_transform_to_sorted_indeces(&stack_a);
 	nums = ft_lstsize(stack_a);
-	// sort(&stack_a, &stack_b);
 	base = best_base(nums);
 	radix_sort(&stack_a, &stack_b, base);
-	// print_stacks(stack_a, stack_b);
+	return (EXIT_SUCCESS);
 }
