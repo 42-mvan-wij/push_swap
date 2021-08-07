@@ -2,6 +2,7 @@
 # define TMP_H
 
 #include "libft.h"
+#include <stdio.h>
 
 void	print_stacks(t_list *stack_a, t_list *stack_b);
 

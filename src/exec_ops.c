@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/29 11:35:23 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2021/08/03 14:58:29 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2021/08/07 16:59:24 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,5 @@ void	ps_exec(char *cmd, t_list **stack_a, t_list **stack_b)
 void	ps_exec_print(char *cmd, t_list **stack_a, t_list **stack_b)
 {
 	ps_exec(cmd, stack_a, stack_b);
-	ft_putstr_fd(cmd, STDOUT_FILENO);
-	write(STDOUT_FILENO, "\n", 1);
+	ft_putendl_fd(cmd, STDOUT_FILENO);
 }

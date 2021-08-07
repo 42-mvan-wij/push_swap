@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         ::::::::             #
+#    Makefile                                           :+:    :+:             #
+#                                                      +:+                     #
+#    By: mvan-wij <mvan-wij@student.codam.nl>         +#+                      #
+#                                                    +#+                       #
+#    Created: 2021/08/07 17:00:31 by mvan-wij      #+#    #+#                  #
+#    Updated: 2021/08/07 17:00:31 by mvan-wij      ########   odam.nl          #
+#                                                                              #
+# **************************************************************************** #
+
 NAME = push_swap
 NAME_BONUS = checker
 LIBFT = libft/libft.a
@@ -10,12 +22,12 @@ endif
 
 LIBS = -L$(dir $(LIBFT)) -lft
 HEADERS = libft/libft.h src/push_swap.h
-SOURCES = src/exec_ops.c src/rotate.c src/swap_push.c src/utils.c src/indeces.c src/TMP.c src/radix_sort.c
+SOURCES = src/exec_ops.c src/rotate.c src/swap_push.c src/utils.c src/TMP.c
 
 ifndef BONUS
 # Not Bonus./ch
-SOURCES += src/main.c
-HEADERS +=
+SOURCES += src/main.c src/solve/radix_sort.c src/indeces.c src/solve/radix_calc.c
+HEADERS += src/solve/solve.h
 CFLAGS  +=
 LIBS    +=
 else
