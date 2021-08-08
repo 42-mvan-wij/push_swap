@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/24 17:22:52 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2021/08/03 14:58:16 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2021/08/08 11:22:23 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,19 @@ t_list	*ps_init_stack(int size, char **nums)
 		size--;
 	}
 	return (stack);
+}
+
+int	ps_is_sorted(t_list *stack_a, t_list *stack_b)
+{
+	if (stack_b != NULL)
+		return (0);
+	if (stack_a == NULL)
+		return (1);
+	while (stack_a->next != NULL)
+	{
+		if (stack_a->content > stack_a->next->content)
+			return (0);
+		stack_a = stack_a->next;
+	}
+	return (1);
 }

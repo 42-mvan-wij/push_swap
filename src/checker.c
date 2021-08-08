@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/19 11:59:44 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2021/08/07 20:09:00 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2021/08/08 11:26:15 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,28 +16,19 @@
 #include "operations.h"
 #include "utils.h"
 
-void	ps_print_sorted(t_list *stack_a, t_list *stack_b)
+void	read_cmds(t_list **cmds)
 {
-	if (stack_b != NULL)
+	int		res;
+	char	*cmd;
+
+	res = get_next_line(STDIN_FILENO, &cmd);
+	while (res == 1)
 	{
-		write(STDOUT_FILENO, "KO\n", 3);
-		return ;
+		ft_lstadd_back(&cmds, ps_protect(ft_lstnew(cmd)));
+		res = get_next_line(STDIN_FILENO, &cmd);
 	}
-	if (stack_a == NULL)
-	{
-		write(STDOUT_FILENO, "OK\n", 3);
-		return ;
-	}
-	while (stack_a->next != NULL)
-	{
-		if (stack_a->content > stack_a->next->content)
-		{
-			write(STDOUT_FILENO, "KO\n", 3);
-			return ;
-		}
-		stack_a = stack_a->next;
-	}
-	write(STDOUT_FILENO, "OK\n", 3);
+	if (res == -1)
+		ps_protect(NULL);
 }
 
 int	main(int argc, char **argv)
@@ -51,20 +42,16 @@ int	main(int argc, char **argv)
 	stack_a = ps_init_stack(argc - 1, &argv[1]);
 	stack_b = NULL;
 	cmds = NULL;
-	res = get_next_line(STDIN_FILENO, &line);
-	while (res == 1)
-	{
-		ft_lstadd_back(&cmds, ps_protect(ft_lstnew(line)));
-		res = get_next_line(STDIN_FILENO, &line);
-	}
-	if (res == -1)
-		ps_protect(NULL);
+	read_cmds(&cmds);
 	while (cmds != NULL)
 	{
 		ps_exec(cmds->content, &stack_a, &stack_b);
 		free(cmds->content);
 		cmds = cmds->next;
 	}
-	ps_print_sorted(stack_a, stack_b);
+	if (ps_is_sorted(stack_a, stack_b))
+		write(STDOUT_FILENO, "OK\n", 3);
+	else
+		write(STDOUT_FILENO, "KO\n", 3);
 	return (EXIT_SUCCESS);
 }
