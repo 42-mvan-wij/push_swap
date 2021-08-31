@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/19 11:59:44 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2021/08/08 11:26:15 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2021/08/31 14:09:33 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	read_cmds(t_list **cmds)
 	res = get_next_line(STDIN_FILENO, &cmd);
 	while (res == 1)
 	{
-		ft_lstadd_back(&cmds, ps_protect(ft_lstnew(cmd)));
+		ft_lstadd_back(cmds, ps_protect(ft_lstnew(cmd)));
 		res = get_next_line(STDIN_FILENO, &cmd);
 	}
 	if (res == -1)
@@ -36,8 +36,6 @@ int	main(int argc, char **argv)
 	t_list	*stack_a;
 	t_list	*stack_b;
 	t_list	*cmds;
-	int		res;
-	char	*line;
 
 	stack_a = ps_init_stack(argc - 1, &argv[1]);
 	stack_b = NULL;
