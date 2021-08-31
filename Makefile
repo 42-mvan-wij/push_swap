@@ -6,7 +6,7 @@
 #    By: mvan-wij <mvan-wij@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/07 17:00:31 by mvan-wij      #+#    #+#                  #
-#    Updated: 2021/08/07 17:00:31 by mvan-wij      ########   odam.nl          #
+#    Updated: 2021/08/31 15:54:19 by mvan-wij      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ SOURCES = src/exec_ops.c src/rotate.c src/swap_push.c src/utils.c src/TMP.c
 
 ifndef BONUS
 # Not Bonus./ch
-SOURCES += src/main.c src/solve/radix_sort.c src/indeces.c src/solve/radix_calc.c
+SOURCES += src/main.c src/solve/radix_sort.c src/indeces.c src/solve/radix_calc.c src/solve/brute_force.c
 HEADERS += src/solve/solve.h
 CFLAGS  +=
 LIBS    +=
