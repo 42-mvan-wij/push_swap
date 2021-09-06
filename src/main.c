@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/03 14:59:22 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2021/08/31 16:25:58 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2021/09/06 18:19:09 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 typedef	enum	e_solvers {
 	RADIX,
+	BUCKET,
 	BRUTE_FORCE
 }	t_solvers;
 
@@ -33,13 +34,18 @@ int	main(int argc, char *argv[])
 		return (EXIT_SUCCESS);
 	ps_transform_to_sorted_indeces(&stack_a);
 
-	t_solvers	solver = RADIX;
+	t_solvers	solver = BUCKET;
 	/* radix sort: */
 	if (solver == RADIX)
 	{
 		int nums = ft_lstsize(stack_a);
 		int base = best_base(nums);
 		radix_sort(&stack_a, &stack_b, base);
+	}
+	/* bucket sort: */
+	else if (solver == BUCKET)
+	{
+		bucket_sort(&stack_a, &stack_b);
 	}
 	/* brute force sort: */
 	else if (solver == BRUTE_FORCE)
