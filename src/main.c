@@ -16,22 +16,36 @@
 #include "indeces.h"
 #include "solve.h"
 
+typedef	enum	e_solvers {
+	RADIX,
+	BRUTE_FORCE
+}	t_solvers;
+
 #include "TMP.h"
 int	main(int argc, char *argv[])
 {
 	t_list	*stack_a;
 	t_list	*stack_b;
-	// int		nums;
-	// int		base;
 
-	(void)stack_a;
-	(void)stack_b;
 	stack_a = ps_init_stack(argc - 1, &(argv[1]));
 	stack_b = NULL;
+	if (ps_is_sorted(stack_a, stack_b))
+		return (EXIT_SUCCESS);
 	ps_transform_to_sorted_indeces(&stack_a);
-	// nums = ft_lstsize(stack_a);
-	// base = best_base(nums);
-	// radix_sort(&stack_a, &stack_b, base);
-	printf("can sort: %i\n", brute_force_sort(&stack_a, &stack_b, 2));
+
+	t_solvers	solver = RADIX;
+	/* radix sort: */
+	if (solver == RADIX)
+	{
+		int nums = ft_lstsize(stack_a);
+		int base = best_base(nums);
+		radix_sort(&stack_a, &stack_b, base);
+	}
+	/* brute force sort: */
+	else if (solver == BRUTE_FORCE)
+	{
+		if (brute_force_sort(&stack_a, &stack_b, 8))
+			return (EXIT_SUCCESS);
+	}
 	return (EXIT_SUCCESS);
 }

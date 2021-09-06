@@ -6,44 +6,16 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/31 14:13:06 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2021/08/31 16:32:24 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2021/09/06 18:17:29 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "operations.h"
 #include "utils.h"
+#include "solve.h"
 #include <stdlib.h>
-
-#include "TMP.h"
-#include <stdio.h>
-
-/**
- * @param pos 0 is least significant digit
- */
-int	digit_at_pos_base(int num, int pos, int base)
-{
-	while (pos > 0)
-	{
-		num /= base;
-		pos--;
-	}
-	return (num % base);
-}
-
-int	set_digit_base(int num, int pos, int digit, int base)
-{
-	const int	prev_digit = digit_at_pos_base(num, pos, base);
-	int			diff;
-
-	diff = prev_digit - digit;
-	while (pos > 0)
-	{
-		diff *= base;
-		pos--;
-	}
-	return (num - diff);
-}
+#include <unistd.h>
 
 typedef struct s_bf_data {
 	int		node;
@@ -101,32 +73,74 @@ void	fill_data(t_bf_data *data)
 	data->done = NULL;
 }
 
-int	brute_force_sort(t_list **stack_a, t_list **stack_b, int max_depth)
+int	can_sort(t_bf_data *data, t_list **stack_a, t_list **stack_b)
+{
+	int	i;
+	int	did_something;
+
+	i = 0;
+	while (i < data->base)
+	{
+		did_something = ps_exec(data->ops[i], stack_a, stack_b);
+		if (did_something && ps_is_sorted(*stack_a, *stack_b))
+		{
+			ft_lstadd_front(&data->done, ft_lstnew(data->ops[i]));
+			return (1);
+		}
+		if (did_something)
+			ps_undo(data->ops[i], stack_a, stack_b);
+		i++;
+	}
+	return (0);
+}
+
+t_list	*get_brute_force_sort(t_list **stack_a, t_list **stack_b, int depth)
 {
 	t_bf_data	data;
-	int			i;
-	int			did_something;
+	t_list		*next;
 
 	fill_data(&data);
-	while (data.depth < max_depth)
+	while (data.depth < depth - 1)
 	{
-		i = 0;
-		while (i < data.base)
-		{
-			did_something = ps_exec(data.ops[i], stack_a, stack_b);
-			if (ps_is_sorted(*stack_a, *stack_b))
-				return (1);
-			if (did_something)
-				ps_undo(data.ops[i], stack_a, stack_b);
-			i++;
-		}
+		if (can_sort(&data, stack_a, stack_b))
+			return (data.done);
+		do_setup_ops(&data, stack_a, stack_b);
 		data.node++;
-		if (digit_at_pos_base(data.node, data.depth, data.base) == 1)
+		if (ft_get_digit(data.node, data.depth + 1, data.base) == 1)
 		{
-			do_setup_ops(&data, stack_a, stack_b);
-			set_digit_base(data.node, data.depth, 0, data.base);
+			ft_set_digit(data.node, data.depth, 0, data.base);
 			data.depth++;
 		}
+	}
+	while (data.done != NULL)
+	{
+		ps_undo(data.done->content, stack_a, stack_b);
+		next = data.done->next;
+		free(data.done);
+		data.done = next;
+	}
+	data.base = 0;
+	return (NULL);
+}
+
+int	brute_force_sort(t_list **stack_a, t_list **stack_b, int max_depth)
+{
+	t_list	*ops;
+	int		i;
+	t_list	*item;
+
+	ops = get_brute_force_sort(stack_a, stack_b, max_depth);
+	if (ops != NULL)
+	{
+		i = ft_lstsize(ops);
+		while (i > 0)
+		{
+			i--;
+			item = ft_lstitem(ops, i);
+			ft_putendl_fd(item->content, STDOUT_FILENO);
+			ft_lstdelone(item, NULL);
+		}
+		return (1);
 	}
 	return (0);
 }
