@@ -6,15 +6,16 @@
 #    By: mvan-wij <mvan-wij@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/07 17:00:31 by mvan-wij      #+#    #+#                  #
-#    Updated: 2021/09/06 16:43:07 by mvan-wij      ########   odam.nl          #
+#    Updated: 2021/09/07 16:40:29 by mvan-wij      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = push_swap
+PROJECT    = push_swap
+NAME       = push_swap
 NAME_BONUS = checker
-LIBFT = libft/libft.a
+LIBFT      = libft/libft.a
 
-CC = gcc
+CC	   = gcc
 CFLAGS = -Wall -Wextra -Werror
 ifdef DEBUG
 CFLAGS += -g
@@ -39,6 +40,10 @@ CFLAGS  +=
 LIBS    +=
 endif
 
+include colours.mk
+RULE_SPACING = 6
+PROJECT_SPACING = 11
+
 SRCDIR = src
 OBJDIR = obj
 
@@ -50,36 +55,36 @@ INCLUDES = $(addprefix -I,$(dir $(HEADERS)))
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJECTS)
+	@printf "$(CYAN_FG)%-$(PROJECT_SPACING)s$(RESET_COLOR) $(GREEN_FG)%-$(RULE_SPACING)s$(RESET_COLOR) : " "[$(PROJECT)]" "make"
 	$(CC) $(CFLAGS) $(OBJECTS) $(LIBS) -o $(NAME)
-
-	#cp $(LIBFT) $(NAME)
-	#ar -crs $(NAME) $(OBJECTS)
+	@printf "$(CYAN_FG)%-$(PROJECT_SPACING)s$(RESET_COLOR) $(GREEN_FG)%-$(RULE_SPACING)s$(RESET_COLOR) : $(BLUE_FG)$(NAME)$(RESET_COLOR) created\n" "[$(PROJECT)]" "make"
 
 bonus: $(NAME)
-	$(MAKE) BONUS=1
+	@$(MAKE) BONUS=1
 
 debug:
-	$(MAKE) DEBUG=1
+	@$(MAKE) DEBUG=1
 
 $(LIBFT): $(addprefix $(dir $(LIBFT)),$(shell $(MAKE) -s -C $(dir $(LIBFT)) sources))
 ifdef DEBUG
-	$(MAKE) -C $(dir $(LIBFT)) debug bonus
+	@$(MAKE) SILENT=1 -C $(dir $(LIBFT)) debug
 else
-	$(MAKE) -C $(dir $(LIBFT)) bonus
+	@$(MAKE) SILENT=1 -C $(dir $(LIBFT))
 endif
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c $(HEADERS)
+	@printf "$(CYAN_FG)%-$(PROJECT_SPACING)s$(RESET_COLOR) $(GREEN_FG)%-$(RULE_SPACING)s$(RESET_COLOR) : " "[$(PROJECT)]" "make"
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
-	$(MAKE) -C $(dir $(LIBFT)) clean
-	rm -f $(OBJECTS)
+	@printf "$(CYAN_FG)%-$(PROJECT_SPACING)s$(RESET_COLOR) $(GREEN_FG)%-$(RULE_SPACING)s$(RESET_COLOR) : " "[$(PROJECT)]" "$@"
+	rm -rf $(OBJDIR)
+	@$(MAKE) -C $(dir $(LIBFT)) clean
 
 fclean: clean
-	$(MAKE) -C $(dir $(LIBFT)) fclean
-	rm -rf $(OBJDIR)
-	rm -f $(NAME)
-	rm -f $(NAME_BONUS)
+	@printf "$(CYAN_FG)%-$(PROJECT_SPACING)s$(RESET_COLOR) $(GREEN_FG)%-$(RULE_SPACING)s$(RESET_COLOR) : " "[$(PROJECT)]" "$@"
+	rm -f $(NAME) $(NAME_BONUS)
+	@$(MAKE) -C $(dir $(LIBFT)) fclean
 
 re: fclean all
