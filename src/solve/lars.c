@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/07 17:49:52 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2021/09/13 15:06:07 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2021/09/14 15:00:29 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,21 +150,31 @@
 // 11_group = 3_group + 7_group + 1_group
 // 7_group = 3_group + 3_group + 1_group
 
+#include "operations.h"
+#include "libft.h"
 #include <stdlib.h>
 
-typedef	int t_1_group;
+typedef int	t_1_group;
 
-typedef struct {
+typedef struct s_3_group {
 	t_1_group	low;
 	t_1_group	middle;
 	t_1_group	high;
-} t_3_group;
+}	t_3_group;
 
-typedef struct {
+typedef struct s_group {
 	t_1_group	*ones;
 	t_3_group	**threes;
 	int			size;
-} t_group;
+}	t_group;
+
+typedef struct s_lars_data {
+	t_group	**groups;
+	t_list	**stack_a;
+	t_list	**stack_b;
+	int		total_size;
+	int		num_groups;
+}	t_lars_data;
 
 t_3_group	*create_3_group(t_1_group low, t_1_group middle, t_1_group high)
 {
@@ -330,7 +340,8 @@ t_group	**get_groups(int n_groups)
 	return ((t_group **)groups);
 }
 
-#include <stdio.h>
+// #include <stdio.h>
+#include "TMP.h"
 
 void	print_group(t_group *group)
 {
@@ -371,11 +382,12 @@ int	is_anywhere_in_group(int v, t_group *group)
 	i = 0;
 	while (i < group->size)
 	{
-		if (group->ones[0] == v
-			|| group->threes[0]->low == v
-			|| group->threes[0]->middle == v
-			|| group->threes[0]->high == v)
+		if (group->ones[i] == v
+			|| group->threes[i]->low == v
+			|| group->threes[i]->middle == v
+			|| group->threes[i]->high == v)
 			return (1);
+		i++;
 	}
 	return (0);
 }
@@ -397,48 +409,62 @@ int	is_in_group(int v, t_group *group)
 	return (0);
 }
 
-void	split_to_three(t_group **groups)
+int	which_group(int n, t_lars_data *data)
 {
-	int	i;
+	const int	extra = data->total_size % data->num_groups;
+	const int	group_size = data->total_size / data->num_groups;
+	const int	regular = group_size * (data->num_groups - extra);
+
+	if (n < regular)
+		return (n / group_size);
+	return ((n - regular) / (group_size + 1) + (data->num_groups - extra));
+}
+
+void	split_to_three(t_lars_data *data)
+{
+	int			top_value_group;
+	int			i;
 
 	i = 0;
-	while (i < stack_size)
+	while (i < data->total_size)
 	{
-		if (is_anywhere_in_group(top_value_group, groups[0]))
-			exec("ra"); // rra?
+		top_value_group = which_group((*data->stack_a)->content, data);
+		printf("group: %i\n", top_value_group);
+		if (is_anywhere_in_group(top_value_group, data->groups[0]))
+			ps_exec_print("ra", data->stack_a, data->stack_b); // rra?
 		else
 		{
-			exec("pb");
-			if (is_anywhere_in_group(top_value_group, groups[2]))
-				exec("rb"); // rrb?
+			ps_exec_print("pb", data->stack_a, data->stack_b);
+			if (is_anywhere_in_group(top_value_group, data->groups[2]))
+				ps_exec_print("rb", data->stack_a, data->stack_b); // rrb?
 		}
 		i++;
 	}
 }
 
-void	resolve_group_value(t_group *group, int side, int value)
+void	resolve_group_value(t_group *group, int side, int value, t_lars_data *data)
 {
 	const int	g = in_group(value, group);
 
 	if (side == 0) // stack a
 	{
 		if (g == 0 || g == 1)
-			exec("pb");
+			ps_exec_print("pb", data->stack_a, data->stack_b);
 		if (g == 1)
-			exec("rb"); // rrb?
+			ps_exec_print("rb", data->stack_a, data->stack_b); // rrb?
 		else if (g != 0)
-			exec("ra"); // rra?
+			ps_exec_print("ra", data->stack_a, data->stack_b); // rra?
 		return ;
 	}
 	if (g == 0 || g == 1)
-		exec("pa");
+		ps_exec_print("pa", data->stack_a, data->stack_b);
 	if (g == 1)
-		exec("ra"); // rra?
+		ps_exec_print("ra", data->stack_a, data->stack_b); // rra?
 	else if (g != 0)
-		exec("rb"); // rrb?
+		ps_exec_print("rb", data->stack_a, data->stack_b); // rrb?
 }
 
-void	resolve_group_step(t_group *group, int side)
+void	resolve_group_step(t_group *group, int side, t_lars_data *data)
 {
 	int	i;
 
@@ -446,15 +472,15 @@ void	resolve_group_step(t_group *group, int side)
 	while (i > 0)
 	{
 		if (side == 0)
-			resolve_group_value(group, side, top_a_value_group);
+			resolve_group_value(group, side, which_group((*data->stack_a)->content, data), data);
 		else
-			resolve_group_value(group, side, top_b_value_group);
+			resolve_group_value(group, side, which_group((*data->stack_b)->content, data), data);
 		i--;
 	}
 	group->size--;
 }
 
-void	resolve_group(t_group *group, int starting_side)
+void	resolve_group(t_group *group, int starting_side, t_lars_data *data)
 {
 	int	side0;
 	int	side1;
@@ -468,27 +494,66 @@ void	resolve_group(t_group *group, int starting_side)
 	}
 	while (group->size > 0)
 	{
-		resolve_group_step(group, side0);
+		resolve_group_step(group, side0, data);
 		if (group->size > 0)
-			resolve_group_step(group, side1);
+			resolve_group_step(group, side1, data);
 	}
 }
 
-int	main(void)
+t_lars_data	create_data(int num_groups, t_list **stack_a, t_list **stack_b)
 {
-	t_group	**groups = get_groups(12 * 3);
-	if (groups == NULL)
-		return (EXIT_FAILURE);
-	int i = 0;
-	while (groups[i] != NULL)
-	{
-		print_group(groups[i]);
-		printf("\n");
-		i++;
-	}
+	t_lars_data	data;
 
-	split_to_three(groups);
-	resolve_group(groups[0], 0);
-	resolve_group(groups[1], 1);
-	resolve_group(groups[2], 1);
+	data.stack_a = stack_a;
+	data.stack_b = stack_b;
+	data.total_size = ft_lstsize(*stack_a);
+	data.num_groups = num_groups;
+	data.groups = get_groups(num_groups);
+	return (data);
 }
+
+int	sort_lars(t_list **stack_a, t_list **stack_b)
+{
+	const int num_groups = 12 * 3;
+	t_lars_data	data = create_data(num_groups, stack_a, stack_b);
+	if (data.groups == NULL)
+		return (EXIT_FAILURE);
+	// int i = 0;
+	// while (data.groups[i] != NULL)
+	// {
+	// 	print_group(data.groups[i]);
+	// 	printf("\n");
+	// 	i++;
+	// }
+
+	split_to_three(&data);
+	print_stacks(*data.stack_a, *data.stack_b);
+	resolve_group(data.groups[0], 0, &data);
+	resolve_group(data.groups[1], 1, &data);
+	resolve_group(data.groups[2], 1, &data);
+	return (EXIT_SUCCESS);
+}
+
+// int	main2(void)
+// {
+// 	const int num_groups = 12 * 3;
+// 	t_list **stack_a;
+// 	t_list **stack_b;
+// 	*stack_a = NULL;
+// 	*stack_b = NULL;
+// 	t_lars_data	data = create_data(num_groups, stack_a, stack_b);
+// 	if (data.groups == NULL)
+// 		return (EXIT_FAILURE);
+// 	int i = 0;
+// 	while (data.groups[i] != NULL)
+// 	{
+// 		print_group(data.groups[i]);
+// 		printf("\n");
+// 		i++;
+// 	}
+
+// 	split_to_three(&data);
+// 	resolve_group(data.groups[0], 0, &data);
+// 	resolve_group(data.groups[1], 1, &data);
+// 	resolve_group(data.groups[2], 1, &data);
+// }

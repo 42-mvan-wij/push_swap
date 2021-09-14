@@ -16,7 +16,8 @@ NAME_BONUS = checker
 LIBFT      = libft/libft.a
 
 CC	   = gcc
-CFLAGS = -Wall -Wextra -Werror
+# CFLAGS = -Wall -Wextra -Werror
+CFLAGS =
 ifdef DEBUG
 CFLAGS += -g
 endif

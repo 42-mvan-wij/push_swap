@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/03 14:59:22 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2021/09/06 18:19:09 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2021/09/14 14:18:15 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,11 @@
 typedef	enum	e_solvers {
 	RADIX,
 	BUCKET,
-	BRUTE_FORCE
+	BRUTE_FORCE,
+	LARS
 }	t_solvers;
 
+void	sort_lars(t_list **stack_a, t_list **stack_b);
 #include "TMP.h"
 int	main(int argc, char *argv[])
 {
@@ -34,7 +36,7 @@ int	main(int argc, char *argv[])
 		return (EXIT_SUCCESS);
 	ps_transform_to_sorted_indeces(&stack_a);
 
-	t_solvers	solver = BUCKET;
+	t_solvers	solver = LARS;
 	/* radix sort: */
 	if (solver == RADIX)
 	{
@@ -46,6 +48,11 @@ int	main(int argc, char *argv[])
 	else if (solver == BUCKET)
 	{
 		bucket_sort(&stack_a, &stack_b);
+	}
+	/* lars' sorting alg: */
+	else if (solver == LARS)
+	{
+		sort_lars(&stack_a, &stack_b);
 	}
 	/* brute force sort: */
 	else if (solver == BRUTE_FORCE)
