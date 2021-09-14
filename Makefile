@@ -6,7 +6,7 @@
 #    By: mvan-wij <mvan-wij@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/07 17:00:31 by mvan-wij      #+#    #+#                  #
-#    Updated: 2021/09/07 16:40:29 by mvan-wij      ########   odam.nl          #
+#    Updated: 2021/09/14 14:13:06 by mvan-wij      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,8 +26,8 @@ HEADERS = libft/libft.h src/push_swap.h
 SOURCES = src/exec_ops.c src/rotate.c src/swap_push.c src/utils.c src/TMP.c
 
 ifndef BONUS
-# Not Bonus./ch
-SOURCES += src/main.c src/solve/radix_sort.c src/indeces.c src/solve/radix_calc.c src/solve/brute_force.c src/solve/bucket_sort.c
+# Not Bonus
+SOURCES += src/main.c src/solve/radix_sort.c src/indeces.c src/solve/radix_calc.c src/solve/brute_force.c src/solve/bucket_sort.c src/solve/lars.c
 HEADERS += src/solve/solve.h
 CFLAGS  +=
 LIBS    +=
