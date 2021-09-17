@@ -6,7 +6,7 @@
 #    By: mvan-wij <mvan-wij@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/07 17:00:31 by mvan-wij      #+#    #+#                  #
-#    Updated: 2021/09/14 14:13:06 by mvan-wij      ########   odam.nl          #
+#    Updated: 2021/09/17 15:43:45 by mvan-wij      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,8 +16,8 @@ NAME_BONUS = checker
 LIBFT      = libft/libft.a
 
 CC	   = gcc
-# CFLAGS = -Wall -Wextra -Werror
-CFLAGS =
+CFLAGS = -Wall -Wextra -fsanitize=address -Werror
+#-Werror
 ifdef DEBUG
 CFLAGS += -g
 endif
