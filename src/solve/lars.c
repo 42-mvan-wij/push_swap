@@ -6,149 +6,9 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/07 17:49:52 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2021/09/17 15:46:23 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2021/09/22 17:58:28 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
-
-// ________________________        ________________________
-//    1-3-4   |     2                   4     |     3
-//            |                               |     2
-//            |                               |     1
-//            |                               |
-//            |                               |
-//            |                               |
-//            |                               |
-//            |                               |
-//            |                               |
-//            |                               |
-//            |                               |
-//            |                               |
-//            |                               |
-//            |                               |
-//            |                               |
-//            |                               |
-//            |                               |
-//            |                               |
-//            |                               |
-//            |                               |
-//            |                               |
-//            |                               |
-//            |                               |
-
-
-// ________________________       ________________________       ________________________
-//    2-4-6   |     3                1-5-7   |     4                  6     |     5
-//    1-5-7   |                        6     |     3                  7     |     4
-//            |                              |     2                        |     3
-//            |                              |                              |     2
-//            |                              |                              |     1
-//            |                              |                              |
-//            |                              |                              |
-//            |                              |                              |
-//            |                              |                              |
-//            |                              |                              |
-//            |                              |                              |
-//            |                              |                              |
-//            |                              |                              |
-//            |                              |                              |
-//            |                              |                              |
-//            |                              |                              |
-//            |                              |                              |
-//            |                              |                              |
-//            |                              |                              |
-//            |                              |                              |
-//            |                              |                              |
-//            |                              |                              |
-//            |                              |                              |
-
-
-
-// ________________________       ________________________       ________________________       ________________________
-//    3-5-8   |     4                2-6-9   |     5                1-7-10  |     6                  8     |     7
-//    2-6-9   |                      1-7-10  |     4                  8     |     5                  9     |     6
-//    1-7-10  |                        8     |     3                  9     |     4                  10    |     5
-//            |                              |                              |     3                        |     4
-//            |                              |                              |     2                        |     3
-//            |                              |                              |                              |     2
-//            |                              |                              |                              |     1
-//            |                              |                              |                              |
-//            |                              |                              |                              |
-//            |                              |                              |                              |
-//            |                              |                              |                              |
-//            |                              |                              |                              |
-//            |                              |                              |                              |
-//            |                              |                              |                              |
-//            |                              |                              |                              |
-//            |                              |                              |                              |
-//            |                              |                              |                              |
-//            |                              |                              |                              |
-//            |                              |                              |                              |
-//            |                              |                              |                              |
-//            |                              |                              |                              |
-//            |                              |                              |                              |
-//            |                              |                              |                              |
-
-
-
-
-
-// ___________________________________________
-//    l+n -  m+q+1  - h-n   |         m+q
-//            ...           |         ...
-//    l+3 - m+q+n-3 - h-3   |         m+3
-//    l+2 - m+q+n-2 - h-2   |         m+2
-//    l+1 - m+q+n-1 - h-1   |         m+1
-//     l  - m+q+n   -  h    |       m=l+n+1
-
-
-
-// m = l + n + 1
-// ___________________________________________
-//                      |     (l+1 - m+4 - h-1) - (l+n-1 - m+2 - h-n-1) - (m+1)
-//                      |     (l - m+n - h)     - (l+n - m+1 - h-n) - (m)
-//                      |         m+q
-//                      |         ...
-//                      |         m+3
-//                      |         m+2
-
-
-
-//_________________        ________________________________        ______________________________        ______________________________    ______________________________    ______________________________
-//    57   |                    57/3=19   |    57/3=19                  3   |    19 - 4 = 15                  15 - 4 = 11   |    19             3   |    11 - 4 = 7              7-4=3   |    19
-//                                             57/3=19                      |    19                           3             |    19             3   |    19                       3      |    19
-//                                                                          |    19                           3             |    1              3   |    19                       3      |    1
-//                                                                          |    1                                          |    1                  |    1                        3      |    1
-//                                                                                                                                                  |    1                        3      |    1
-//                                                                                                                                                  |    1
-
-//   (groups / 3) % 4 = 1 => perfect
-//   (groups / 3) % 4 = 0 => prefect 2 ?
-
-//    ______________________________
-//       19 - 4 = 15  |    19
-//         3          |    1
-//         3          |    1
-//         3          |    1
-//         3          |    1
-//         3          |
-
-// #3s = #1s + o=(1,2)
-
-// #l: n + 1     #m: q + 1    #h: n + 1
-// o == 1
-//     #l + #m + #h = (n + 1) * 2 + n = 3n + 2
-// o == 2
-//     #l + #m + #h = (n + 1) * 2 + (n - 1) = 3n + 1
-
-
-// 1_groups = groups % 4 = 1
-// 3_groups = groups % 4 = (0, 2, 3)
-
-
-
-// 15_group = 3_group + 11_group + 1_group
-// 11_group = 3_group + 7_group + 1_group
-// 7_group = 3_group + 3_group + 1_group
 
 #include "operations.h"
 #include "libft.h"
@@ -505,11 +365,70 @@ void	solve_threes(t_group *group, t_lars_data *data)
 	}
 }
 
+void	sort_group(int group_size, t_list **stack_a)
+{
+	if (group_size <= 1)
+		return ;
+	if ((*stack_a)->content > (*stack_a)->next->content)
+		ps_exec_print("sa", stack_a, NULL);
+	if (group_size == 2)
+		return ;
+	if ((*stack_a)->next->content > (*stack_a)->next->next->content)
+	{
+		ps_exec_print("ra", stack_a, NULL);
+		ps_exec_print("sa", stack_a, NULL);
+		ps_exec_print("rra", stack_a, NULL);
+	}
+	if ((*stack_a)->content > (*stack_a)->next->content)
+		ps_exec_print("sa", stack_a, NULL);
+}
+
+void	sort_left(t_list **stack_a, t_lars_data  *data)
+{
+	int	len;
+	int	size;
+
+	len = ft_lstsize(*stack_a);
+	while (len > 0)
+	{
+		size = group_size(which_group((long)(*stack_a)->content, data), data);
+		sort_group(size, stack_a);
+		len -= size;
+		while (size > 0)
+		{
+			ps_exec_print("ra", stack_a, NULL);
+			size--;
+		}
+	}
+}
+
+void	sort_right(t_list **stack_a, t_list **stack_b, t_lars_data  *data)
+{
+	int	size;
+	int	i;
+
+	while (*stack_b != NULL)
+	{
+		size = group_size(which_group((long)(*stack_b)->content, data), data);
+		i = 0;
+		while (i < size)
+		{
+			ps_exec_print("pa", stack_a, stack_b);
+			i++;
+		}
+		sort_group(size, stack_a);
+	}
+}
+
 int	sort_lars(t_list **stack_a, t_list **stack_b)
 {
-	const int	num_groups = 12 * 3;
+	const int	size = ft_lstsize(*stack_a);
+	int			num_groups;
 	t_lars_data	data;
 
+	num_groups = size / 3;
+	if (num_groups % 12 != 0)
+		num_groups += 12 - (num_groups % 12);
 	data = create_data(num_groups, stack_a, stack_b);
 	if (data.groups == NULL)
 		return (EXIT_FAILURE);
@@ -520,6 +439,7 @@ int	sort_lars(t_list **stack_a, t_list **stack_b)
 	solve_threes(&data.groups[0], &data);
 	solve_threes(&data.groups[1], &data);
 	solve_threes(&data.groups[2], &data);
-	print_stacks(*data.stack_a, *data.stack_b);
+	sort_left(stack_a, &data);
+	sort_right(stack_a, stack_b, &data);
 	return (EXIT_SUCCESS);
 }
