@@ -6,7 +6,7 @@
 #    By: mvan-wij <mvan-wij@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/07 17:00:31 by mvan-wij      #+#    #+#                  #
-#    Updated: 2021/09/22 18:30:18 by mvan-wij      ########   odam.nl          #
+#    Updated: 2021/09/22 18:39:29 by mvan-wij      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,8 +16,7 @@ NAME_BONUS = checker
 LIBFT      = libft/libft.a
 
 CC	   = gcc
-CFLAGS = -Wall -Wextra -fsanitize=address -Werror
-#-Werror
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address
 ifdef DEBUG
 CFLAGS += -g
 endif
@@ -68,9 +67,9 @@ debug:
 
 $(LIBFT): $(addprefix $(dir $(LIBFT)),$(shell $(MAKE) -s -C $(dir $(LIBFT)) sources))
 ifdef DEBUG
-	@$(MAKE) -C $(dir $(LIBFT)) debug
+	@$(MAKE) SILENT=1 -C $(dir $(LIBFT)) debug
 else
-	@$(MAKE) -C $(dir $(LIBFT))
+	@$(MAKE) SILENT=1 -C $(dir $(LIBFT))
 endif
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c $(HEADERS)
