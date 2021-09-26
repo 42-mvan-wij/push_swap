@@ -113,5 +113,6 @@ t_group	*get_groups(int n_groups)
 		}
 		k++;
 	}
+	free((void *)threes);
 	return ((t_group *) groups);
 }

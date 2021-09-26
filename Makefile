@@ -22,13 +22,31 @@ CFLAGS += -g
 endif
 
 LIBS = -L$(dir $(LIBFT)) -lft
-HEADERS = libft/libft.h src/push_swap.h
-SOURCES = src/exec_ops.c src/rotate.c src/swap_push.c src/utils.c src/TMP.c
+HEADERS = 	libft/libft.h	\
+			src/push_swap.h
+
+SOURCES =	src/exec_ops.c	\
+			src/rotate.c	\
+			src/swap_push.c	\
+			src/utils.c		\
+			src/TMP.c
 
 ifndef BONUS
 # Not Bonus
-SOURCES += src/main.c src/solve/radix_sort.c src/indeces.c src/solve/radix_calc.c src/solve/brute_force.c src/solve/bucket_sort.c src/solve/lars.c
-HEADERS += src/solve/solve.h
+SOURCES +=	src/main.c							\
+			src/solve/radix_sort.c				\
+			src/indeces.c						\
+			src/solve/radix_calc.c				\
+			src/solve/brute_force.c				\
+			src/solve/bucket_sort.c				\
+			src/solve/lars.c					\
+			src/solve/lars_util/groups.c		\
+			src/solve/lars_util/final_sorts.c	\
+			src/solve/lars_util/group_data.c	\
+			src/solve/lars_util/resolve_group.c
+
+HEADERS +=	src/solve/solve.h	\
+			src/solve/lars_util/lars_util.h
 CFLAGS  +=
 LIBS    +=
 else

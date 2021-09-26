@@ -49,7 +49,7 @@ static void	resolve_group_step(t_group *group, int side, t_lars_data *data)
 	while (i > 0)
 	{
 		value_group = which_group((long)(*stack)->content, data);
-		resolve_group_v(group, side, value_group, data);
+		resolve_v(group, side, value_group, data);
 		i--;
 	}
 	group->size_to_index

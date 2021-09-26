@@ -60,12 +60,12 @@ void	fill_data(t_bf_data *data)
 		"ra", "rb", "rr", "rra", "rrb", "rrr"};
 	int			i;
 
-	data->ops = ft_memdup(ops, 11 * sizeof(char *));
+	data->ops = malloc(11 * sizeof(char *));
 	data->base = 11;
 	i = 0;
 	while (i < 11)
 	{
-		data->ops[i] = ft_strdup(data->ops[i]);
+		data->ops[i] = ft_strdup(ops[i]);
 		i++;
 	}
 	data->node = 0;
@@ -94,7 +94,7 @@ int	can_sort(t_bf_data *data, t_list **stack_a, t_list **stack_b)
 	return (0);
 }
 
-t_list	*get_brute_force_sort(t_list **stack_a, t_list **stack_b, int depth)
+t_bf_data	get_brute_force_sort(t_list **stack_a, t_list **stack_b, int depth)
 {
 	t_bf_data	data;
 	t_list		*next;
@@ -103,7 +103,7 @@ t_list	*get_brute_force_sort(t_list **stack_a, t_list **stack_b, int depth)
 	while (data.depth < depth - 1)
 	{
 		if (can_sort(&data, stack_a, stack_b))
-			return (data.done);
+			return (data);
 		do_setup_ops(&data, stack_a, stack_b);
 		data.node++;
 		if (ft_get_digit(data.node, data.depth + 1, data.base) == 1)
@@ -119,17 +119,18 @@ t_list	*get_brute_force_sort(t_list **stack_a, t_list **stack_b, int depth)
 		free(data.done);
 		data.done = next;
 	}
-	data.base = 0;
-	return (NULL);
+	return (data);
 }
 
 int	brute_force_sort(t_list **stack_a, t_list **stack_b, int max_depth)
 {
-	t_list	*ops;
-	int		i;
-	t_list	*item;
+	t_bf_data	data;
+	t_list		*ops;
+	int			i;
+	t_list		*item;
 
-	ops = get_brute_force_sort(stack_a, stack_b, max_depth);
+	data = get_brute_force_sort(stack_a, stack_b, max_depth);
+	ops = data.done;
 	if (ops != NULL)
 	{
 		i = ft_lstsize(ops);
@@ -140,7 +141,9 @@ int	brute_force_sort(t_list **stack_a, t_list **stack_b, int max_depth)
 			ft_putendl_fd(item->content, STDOUT_FILENO);
 			ft_lstdelone(item, NULL);
 		}
+		ft_free_arr_n((void ***)&data.ops, data.base);
 		return (1);
 	}
+	ft_free_arr_n((void ***)&data.ops, data.base);
 	return (0);
 }

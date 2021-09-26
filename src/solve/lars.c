@@ -15,36 +15,9 @@
 #include "libft.h"
 #include <stdlib.h>
 
-typedef struct s_lars_data
-{
-	t_group	*groups;
-	t_list	**stack_a;
-	t_list	**stack_b;
-	int		total_size;
-	int		num_groups;
-}			t_lars_data;
-
+// FIXME: Remove unused includes
 #include <stdio.h>
 #include "TMP.h"
-
-void	print_group(t_group *group)
-{
-	int i = 0;
-	printf("size: %i\ntotal_size: %i\nones: ", group->size, group->total_size);
-	while (i < group->size)
-	{
-		printf("[%i] ", group->ones[i]);
-		i++;
-	}
-	printf("\nthrees: ");
-	i = 0;
-	while (i < group->size)
-	{
-		printf("[%i, %i, %i] ", group->threes[i].low, group->threes[i].middle, group->threes[i].high);
-		i++;
-	}
-	printf("\n");
-}
 
 void	split_to_three(t_lars_data *data)
 {
@@ -58,11 +31,11 @@ void	split_to_three(t_lars_data *data)
 		if (anywhere_in_group(top_value_group, &data->groups[0]))
 			ps_exec_print("ra", data->stack_a, data->stack_b);
 		else
-			{
+		{
 			ps_exec_print("pb", data->stack_a, data->stack_b);
 			if (anywhere_in_group(top_value_group, &data->groups[2]))
 				ps_exec_print("rb", data->stack_a, data->stack_b);
-			}
+		}
 		i++;
 	}
 }
@@ -151,5 +124,6 @@ int	sort_lars(t_list **stack_a, t_list **stack_b)
 	solve_threes(&data.groups[2], &data);
 	sort_left(stack_a, &data);
 	sort_right(stack_a, stack_b, &data);
+	free_groups(data.groups);
 	return (EXIT_SUCCESS);
 }

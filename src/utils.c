@@ -89,6 +89,7 @@ t_list	*ps_init_stack(int size, char **nums)
 		num_arr = ps_protect(ft_split(nums[size - 1], ' '));
 		ps_protect(num_arr[0]);
 		ps_add_to_stack(num_arr, &stack);
+		ft_free_arr((void ***)&num_arr);
 		size--;
 	}
 	return (stack);

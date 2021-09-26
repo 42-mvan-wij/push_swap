@@ -57,8 +57,9 @@ int	main(int argc, char *argv[])
 	/* brute force sort: */
 	else if (solver == BRUTE_FORCE)
 	{
-		if (brute_force_sort(&stack_a, &stack_b, 8))
-			return (EXIT_SUCCESS);
+		brute_force_sort(&stack_a, &stack_b, 8);
 	}
+	ft_lstclear(&stack_a, NULL);
+	ft_lstclear(&stack_b, NULL);
 	return (EXIT_SUCCESS);
 }
