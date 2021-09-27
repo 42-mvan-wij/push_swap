@@ -18,7 +18,6 @@
 
 typedef	enum	e_solvers {
 	RADIX,
-	BUCKET,
 	BRUTE_FORCE,
 	LARS
 }	t_solvers;
@@ -43,11 +42,6 @@ int	main(int argc, char *argv[])
 		int nums = ft_lstsize(stack_a);
 		int base = best_base(nums);
 		radix_sort(&stack_a, &stack_b, base);
-	}
-	/* bucket sort: */
-	else if (solver == BUCKET)
-	{
-		bucket_sort(&stack_a, &stack_b);
 	}
 	/* lars' sorting alg: */
 	else if (solver == LARS)

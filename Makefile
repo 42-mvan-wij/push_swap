@@ -38,7 +38,6 @@ SOURCES +=	src/main.c							\
 			src/indeces.c						\
 			src/solve/radix_calc.c				\
 			src/solve/brute_force.c				\
-			src/solve/bucket_sort.c				\
 			src/solve/lars.c					\
 			src/solve/lars_util/groups.c		\
 			src/solve/lars_util/final_sorts.c	\
