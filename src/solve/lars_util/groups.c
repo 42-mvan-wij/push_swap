@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/23 14:31:38 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2021/09/23 14:31:38 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/02/23 13:26:56 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ t_group	*free_groups(t_group *groups)
 	int	i;
 
 	i = 0;
-	while (groups[i].ones != NULL)
+	while (i < 3)
 	{
 		free(groups[i].ones);
 		free(groups[i].threes);
@@ -77,13 +77,19 @@ t_group	*create_groups(int n_groups, const t_3_group *group_3s)
 		return (NULL);
 	groups = malloc(3 * sizeof(t_group));
 	if (groups == NULL)
+	{
+		free((void *)group_3s);
 		return (NULL);
+	}
 	i = 0;
 	while (i < 3)
 	{
 		groups[i] = create_group(n_groups / 12);
 		if (groups[i].ones == NULL)
+		{
+			free((void *)group_3s);
 			return (free_groups(groups));
+		}
 		i++;
 	}
 	return (groups);
@@ -97,7 +103,7 @@ t_group	*get_groups(int n_groups)
 	int				j;
 	int				k;
 
-	if (threes == NULL)
+	if (groups == NULL)
 		return (NULL);
 	i = 0;
 	k = 0;
@@ -114,5 +120,5 @@ t_group	*get_groups(int n_groups)
 		k++;
 	}
 	free((void *)threes);
-	return ((t_group *) groups);
+	return ((t_group *)groups);
 }

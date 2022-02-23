@@ -6,35 +6,58 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/07 01:41:17 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2021/08/07 16:57:34 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/02/23 14:32:03 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-static int	count_bits(int n, int b, int v)
+/**
+ * @param n number (written in base @p b)
+ * @param b base to write @p n and @p v in
+ * @param v digit value to count
+ *
+ * @example count_bits(5, 3, 2) = 2:
+ * 5b10 = 12b3
+ * Counting `2`s in the following sequence gives 2:
+ * 12
+ * 11
+ * 10
+ * 02
+ * 01
+ *
+ * @example count_bits(5, 3, 0) = 3:
+ * 5b10 = 12b3
+ * Counting `0`s in the following sequence gives 3:
+ * 12
+ * 11
+ * 10
+ * 02
+ * 01
+ */
+static int	count_bits(int n, int base, int digit)
 {
 	int	pow;
 	int	count;
 	int	bit;
-	int	i;
-	int	vs;
+	int	digit_i;
+	int	digits;
 
 	pow = 1;
-	i = 0;
+	digit_i = 0;
 	count = 0;
-	vs = 0;
+	digits = 0;
 	while (n / pow != 0)
 	{
-		bit = n / pow % b;
-		if (bit == v)
-			vs++;
-		else if (bit > v)
+		bit = (n / pow) % base;
+		if (bit == digit)
+			digits++;
+		else if (bit > digit)
 			count += pow;
 		if (bit != 0)
-			count += pow / b * i * bit + vs * (n % pow) + vs;
+			count += pow / base * digit_i * bit + digits * (n % pow) + digits;
 		if (bit != 0)
-			vs = 0;
-		pow *= b;
-		i++;
+			digits = 0;
+		pow *= base;
+		digit_i++;
 	}
 	return (count);
 }
@@ -57,23 +80,23 @@ int	count_ops(int len, int base)
 
 int	best_base(int len)
 {
-	int	b;
-	int	bb;
-	int	bv;
-	int	v;
+	int	base;
+	int	best_base;
+	int	best_value;
+	int	value;
 
-	bv = count_ops(len, 2);
-	bb = 2;
-	b = 3;
-	while (b < 100)
+	best_value = count_ops(len, 2);
+	best_base = 2;
+	base = 3;
+	while (base < 100)
 	{
-		v = count_ops(len, b);
-		if (v < bv)
+		value = count_ops(len, base);
+		if (value < best_value)
 		{
-			bv = v;
-			bb = b;
+			best_value = value;
+			best_base = base;
 		}
-		b++;
+		base++;
 	}
-	return (bb);
+	return (best_base);
 }
