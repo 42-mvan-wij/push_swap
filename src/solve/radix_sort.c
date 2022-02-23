@@ -6,15 +6,12 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/03 15:07:10 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2021/08/07 20:02:06 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/02/23 14:44:17 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "operations.h"
-
-#include "TMP.h"
-#include <stdio.h>
 
 static void	move_to_b(t_list **stack_a, t_list **stack_b, int digit, int base)
 {

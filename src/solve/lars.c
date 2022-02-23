@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/07 17:49:52 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2021/09/22 17:58:28 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/02/23 14:44:01 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,10 @@
 #include "libft.h"
 #include <stdlib.h>
 
-// FIXME: Remove unused includes
-#include <stdio.h>
-#include "TMP.h"
-
 void	split_to_three(t_lars_data *data)
 {
-	int			top_value_group;
-	int			i;
+	int	top_value_group;
+	int	i;
 
 	i = 0;
 	while (i < data->total_size)
