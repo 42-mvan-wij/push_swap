@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/24 17:22:52 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2021/08/08 11:22:23 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/03/01 11:32:24 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	ps_is_sorted(t_list *stack_a, t_list *stack_b)
 		return (1);
 	while (stack_a->next != NULL)
 	{
-		if (stack_a->content > stack_a->next->content)
+		if ((long)stack_a->content > (long)stack_a->next->content)
 			return (0);
 		stack_a = stack_a->next;
 	}
