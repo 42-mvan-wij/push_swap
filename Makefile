@@ -6,7 +6,7 @@
 #    By: mvan-wij <mvan-wij@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/07 17:00:31 by mvan-wij      #+#    #+#                  #
-#    Updated: 2022/02/23 14:40:46 by mvan-wij      ########   odam.nl          #
+#    Updated: 2022/03/24 15:36:23 by mvan-wij      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,7 @@ ifndef BONUS
 SOURCES +=	src/push_swap.c						\
 			src/solve/radix_sort.c				\
 			src/indeces.c						\
+			src/solve/radix_calc_core.c			\
 			src/solve/radix_calc.c				\
 			src/solve/brute_force.c				\
 			src/solve/lars.c					\

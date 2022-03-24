@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/31 14:13:06 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2021/09/06 18:17:29 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/03/02 13:57:02 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ void	do_setup_ops(t_bf_data *data, t_list **stack_a, t_list **stack_b)
 
 void	fill_data(t_bf_data *data)
 {
-	const char	*ops[] = {"pa", "pb", "sa", "sb", "ss",
+	static const char	*ops[] = {"pa", "pb", "sa", "sb", "ss",
 		"ra", "rb", "rr", "rra", "rrb", "rrr"};
-	int			i;
+	int					i;
 
 	data->ops = malloc(11 * sizeof(char *));
 	data->base = 11;
