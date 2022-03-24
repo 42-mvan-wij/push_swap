@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/01/11 00:37:09 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/02/22 16:22:42 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/03/24 17:04:43 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ double	ft_atod(char *str)
 
 	while (ft_isspace(*str))
 		str++;
-	int_part = (double)ft_atoi(str);
+	int_part = (double)ft_atoi(str, NULL);
 	is_neg = (*str == '-');
 	if (*str == '+' || is_neg)
 		str++;
@@ -34,7 +34,7 @@ double	ft_atod(char *str)
 	if (*str != '.' || !ft_isdigit(str[1]))
 		return (int_part);
 	str++;
-	float_part = (double)ft_atoi(str);
+	float_part = (double)ft_atoi(str, NULL);
 	while (ft_isdigit(*str))
 	{
 		str++;

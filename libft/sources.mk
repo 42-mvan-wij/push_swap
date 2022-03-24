@@ -6,7 +6,7 @@
 #    By: mvan-wij <mvan-wij@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/02/23 14:37:24 by mvan-wij      #+#    #+#                  #
-#    Updated: 2022/02/23 14:37:34 by mvan-wij      ########   odam.nl          #
+#    Updated: 2022/03/24 15:54:32 by mvan-wij      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,7 @@ LST_SRCS =	src/lst/ft_lstadd_back.c	\
 			src/lst/ft_lstlast.c		\
 			src/lst/ft_lstmap.c			\
 			src/lst/ft_lstnew.c			\
+			src/lst/ft_lstnew_front.c	\
 			src/lst/ft_lstsize.c		\
 			src/lst/ft_lstitem.c
 
@@ -61,17 +62,18 @@ MEM_SRCS =	src/mem/ft_bzero.c				\
 			src/mem/ft_free_arr.c			\
 			src/mem/ft_free_arr_n.c
 
-NBR_SRCS =	src/nbr/ft_atod.c		\
-			src/nbr/ft_atoi.c		\
-			src/nbr/ft_itoa_base.c	\
-			src/nbr/ft_itoa_basei.c	\
-			src/nbr/ft_itoa.c		\
-			src/nbr/ft_nbrlen_u.c	\
-			src/nbr/ft_nbrlen.c		\
-			src/nbr/ft_utoa_base.c	\
-			src/nbr/ft_utoa_basei.c	\
-			src/nbr/ft_utoa.c		\
-			src/nbr/ft_get_digit.c	\
+NBR_SRCS =	src/nbr/ft_atod.c			\
+			src/nbr/ft_atoi_strict.c	\
+			src/nbr/ft_atoi.c			\
+			src/nbr/ft_itoa_base.c		\
+			src/nbr/ft_itoa_basei.c		\
+			src/nbr/ft_itoa.c			\
+			src/nbr/ft_nbrlen_u.c		\
+			src/nbr/ft_nbrlen.c			\
+			src/nbr/ft_utoa_base.c		\
+			src/nbr/ft_utoa_basei.c		\
+			src/nbr/ft_utoa.c			\
+			src/nbr/ft_get_digit.c		\
 			src/nbr/ft_set_digit.c
 
 STR_SRCS =	src/str/ft_split.c		\
