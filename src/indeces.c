@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/26 14:15:36 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2021/08/03 14:57:38 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/06/23 13:42:27 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,21 @@ long	ps_lin_search(t_list *lst, void *val)
 	return (-1);
 }
 
+void	ps_error_if_duplicates(t_list *sorted)
+{
+	void	*prev;
+
+	prev = sorted->content;
+	sorted = sorted->next;
+	while (sorted != NULL)
+	{
+		if (sorted->content == prev)
+			ps_protect(NULL);
+		prev = sorted->content;
+		sorted = sorted->next;
+	}
+}
+
 void	ps_transform_to_sorted_indeces(t_list **stack)
 {
 	t_list	*sorted;
@@ -56,6 +71,7 @@ void	ps_transform_to_sorted_indeces(t_list **stack)
 		ps_insert_sorted(&sorted, tmp_stack->content);
 		tmp_stack = tmp_stack->next;
 	}
+	ps_error_if_duplicates(sorted);
 	tmp_stack = *stack;
 	while (tmp_stack != NULL)
 	{
