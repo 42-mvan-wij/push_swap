@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   resolve_group.c                                    :+:    :+:            */
+/*   resolve_family.c                                   :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/23 15:12:25 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/07/07 14:54:41 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/07/11 17:29:11 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,17 @@ static t_status	resolve_family_step(t_family *family, int side,
 	family->index++;
 	return (OK);
 }
+
+// |	ones			| |		|
+// |	threes_low		| |		|
+// |	threes_middle	| |		|
+// |	threes_high		| |		|
+// |	other			| |		|
+
+// |	threes_low		| |	other	|
+// |	threes_middle	| |			|
+// |	threes_high		| |			|
+// |					| |	ones	|
 
 t_status	resolve_family(t_family *family, int starting_side,
 				t_lars_data *data)

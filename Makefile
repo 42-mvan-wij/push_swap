@@ -44,7 +44,7 @@ SOURCES +=	src/push_swap.c							\
 			src/solve/lars_util/final_sorts_left.c	\
 			src/solve/lars_util/final_sorts_right.c	\
 			src/solve/lars_util/group_data.c		\
-			src/solve/lars_util/resolve_group.c
+			src/solve/lars_util/resolve_family.c
 
 HEADERS +=	src/solve/solve.h	\
 			src/solve/lars_util/lars_util.h
