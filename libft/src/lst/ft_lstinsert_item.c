@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_lstinsert.c                                     :+:    :+:            */
+/*   ft_lstinsert_item.c                                :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/29 13:20:54 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/07/05 14:29:49 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/07/05 14:29:55 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 #include <stdlib.h>
 
 /**
- * Inserts the list @p new into @p lst at index @p i
+ * Inserts the list item @p new into @p lst at index @p i
  * @param lst
  * @param new
  * @param i
  * @return 0 on failure, 1 on success
  */
-int	ft_lstinsert(t_list **lst, t_list *new, unsigned int i)
+int	ft_lstinsert_item(t_list **lst, t_list *new, unsigned int i)
 {
 	t_list	*l;
 
@@ -28,7 +28,7 @@ int	ft_lstinsert(t_list **lst, t_list *new, unsigned int i)
 		return (0);
 	if (i == 0)
 	{
-		ft_lstadd_back(&new, *lst);
+		new->next = *lst;
 		*lst = new;
 		return (1);
 	}
@@ -40,7 +40,7 @@ int	ft_lstinsert(t_list **lst, t_list *new, unsigned int i)
 	}
 	if (l == NULL)
 		return (0);
-	ft_lstadd_back(&new, l->next);
+	new->next = l->next;
 	l->next = new;
 	return (1);
 }

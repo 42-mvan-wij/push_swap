@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/07/27 14:55:06 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/03/24 15:54:02 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/07/05 14:30:09 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,14 @@ void	ft_lstadd_back(t_list **lst, t_list *new);
 void	ft_lstadd_front(t_list **lst, t_list *new);
 void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstdelone(t_list *lst, void (*del)(void *));
+int		ft_lstinsert_item(t_list **lst, t_list *new, unsigned int i);
 int		ft_lstinsert(t_list **lst, t_list *new, unsigned int i);
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstlast(t_list *lst);
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 t_list	*ft_lstnew_front(void *content, t_list **lst);
 t_list	*ft_lstnew(void *content);
+t_list	*ft_lstreverse(t_list **lst);
 int		ft_lstsize(t_list *lst);
 t_list	*ft_lstitem(t_list *lst, int i);
 
