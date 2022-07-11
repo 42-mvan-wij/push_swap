@@ -32,16 +32,18 @@ SOURCES =	src/exec_ops.c	\
 
 ifndef BONUS
 # Not Bonus
-SOURCES +=	src/push_swap.c						\
-			src/solve/radix_sort.c				\
-			src/indeces.c						\
-			src/solve/radix_calc_core.c			\
-			src/solve/radix_calc.c				\
-			src/solve/brute_force.c				\
-			src/solve/lars.c					\
-			src/solve/lars_util/groups.c		\
-			src/solve/lars_util/final_sorts.c	\
-			src/solve/lars_util/group_data.c	\
+SOURCES +=	src/push_swap.c							\
+			src/solve/radix_sort.c					\
+			src/indeces.c							\
+			src/solve/radix_calc_core.c				\
+			src/solve/radix_calc.c					\
+			src/solve/brute_force.c					\
+			src/solve/lars.c						\
+			src/solve/lars_util/groups.c			\
+			src/solve/lars_util/group_order.c		\
+			src/solve/lars_util/final_sorts_left.c	\
+			src/solve/lars_util/final_sorts_right.c	\
+			src/solve/lars_util/group_data.c		\
 			src/solve/lars_util/resolve_group.c
 
 HEADERS +=	src/solve/solve.h	\

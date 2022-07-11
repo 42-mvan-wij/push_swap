@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/23 14:59:41 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/07/11 17:22:51 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/07/11 17:30:37 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ t_group_type	in_group(int v, t_family *group);
 int				anywhere_in_family(int v, t_family *group);
 t_status		resolve_family(t_family *group, int starting_side,
 					t_lars_data *data);
+t_3_order		get_group_order_3(t_list *stack);
 t_status		sort_left(t_list **stack_a, t_lars_data *data);
 t_status		sort_right(t_list **stack_b, t_lars_data *data);
 
