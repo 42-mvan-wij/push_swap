@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/07 17:49:52 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/07/07 13:26:27 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/07/11 17:12:59 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ t_status	sort_lars(t_data *ps_data)
 		|| solve_threes(&data.families[1], &data) != OK
 		|| solve_threes(&data.families[2], &data) != OK
 		|| sort_left(&ps_data->stack_a, &data) != OK
-		|| sort_right(&ps_data->stack_a, &ps_data->stack_b, &data) != OK)
+		|| sort_right(&ps_data->stack_b, &data) != OK)
 	{
 		free_families(data.families, 3);
 		return (ps_get_error());

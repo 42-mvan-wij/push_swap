@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/23 14:59:41 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/07/07 14:47:22 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/07/11 17:22:51 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,16 @@ typedef struct s_family
 	int			size_to_index;
 }				t_family;
 
+typedef enum e_3_order
+{
+	O_123,
+	O_132,
+	O_213,
+	O_231,
+	O_312,
+	O_321,
+}	t_3_order;
+
 typedef struct s_lars_data
 {
 	t_family	families[3];
@@ -67,7 +77,6 @@ int				anywhere_in_family(int v, t_family *group);
 t_status		resolve_family(t_family *group, int starting_side,
 					t_lars_data *data);
 t_status		sort_left(t_list **stack_a, t_lars_data *data);
-t_status		sort_right(t_list **stack_a, t_list **stack_b,
-					t_lars_data *data);
+t_status		sort_right(t_list **stack_b, t_lars_data *data);
 
 #endif
