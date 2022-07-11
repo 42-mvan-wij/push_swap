@@ -6,44 +6,38 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/24 17:22:52 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/03/24 17:19:20 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/07/06 14:03:24 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <unistd.h>
 #include "libft.h"
+#include "utils.h"
 
-void	*ps_protect(void *ptr)
+t_status	ps_init_stack(int size, char **nums, t_list **stack)
 {
-	if (ptr == NULL)
-	{
-		write(STDERR_FILENO, "Error\n", 6);
-		exit(EXIT_FAILURE);
-	}
-	return (ptr);
-}
-
-t_list	*ps_init_stack(int size, char **nums)
-{
-	t_list	*stack;
 	int		num;
 	bool	had_overflow;
 
 	if (size == 0)
 		exit(EXIT_SUCCESS);
-	stack = NULL;
+	*stack = NULL;
 	while (size > 0)
 	{
 		size--;
 		if (!ft_atoi_strict(nums[size], &num, &had_overflow) || had_overflow)
 		{
-			ft_lstclear(&stack, NULL);
-			ps_protect(NULL);
+			ft_lstclear(stack, NULL);
+			return (ps_set_error(E_EXPECTED_INT));
 		}
-		ps_protect(ft_lstnew_front((void *)(long)num, &stack));
+		if (ft_lstnew_front((void *)(long)num, stack) == NULL)
+		{
+			ft_lstclear(stack, NULL);
+			return (ps_set_error(E_MALLOC));
+		}
 	}
-	return (stack);
+	return (OK);
 }
 
 int	ps_is_sorted(t_list *stack_a, t_list *stack_b)
@@ -59,4 +53,22 @@ int	ps_is_sorted(t_list *stack_a, t_list *stack_b)
 		stack_a = stack_a->next;
 	}
 	return (1);
+}
+
+static t_status	*get_error_ptr(void)
+{
+	static t_status	error = OK;
+
+	return (&error);
+}
+
+t_status	ps_get_error(void)
+{
+	return (*get_error_ptr());
+}
+
+t_status	ps_set_error(t_status status)
+{
+	*get_error_ptr() = status;
+	return (status);
 }

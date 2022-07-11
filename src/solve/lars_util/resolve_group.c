@@ -6,36 +6,39 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/23 15:12:25 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2021/09/23 15:12:25 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/07/07 14:54:41 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "operations.h"
 #include "lars_util.h"
 
-static void	resolve_v(t_group *group, int side, int value, t_lars_data *data)
+static t_status	resolve_v(t_family *group, int side, int value,
+					t_lars_data *data)
 {
-	const int	g = in_group(value, group);
+	const t_group_type	g = in_group(value, group);
 
 	if (side == 0)
 	{
-		if (g == 0 || g == 1)
-			ps_exec_print("pb", data->stack_a, data->stack_b);
-		if (g == 1)
-			ps_exec_print("rb", data->stack_a, data->stack_b);
-		else if (g != 0)
-			ps_exec_print("ra", data->stack_a, data->stack_b);
-		return ;
+		if (g == OTHER || g == ONES)
+			ps_exec_store(PB, data->stack_a, data->stack_b, data->ops);
+		if (g == ONES)
+			ps_exec_store(RB, data->stack_a, data->stack_b, data->ops);
+		if (g != OTHER && g != ONES)
+			ps_exec_store(RA, data->stack_a, data->stack_b, data->ops);
+		return (ps_get_error());
 	}
-	if (g == 1)
-		ps_exec_print("rb", data->stack_a, data->stack_b);
-	if (g != 1)
-		ps_exec_print("pa", data->stack_a, data->stack_b);
-	if (g != 0 && g != 1)
-		ps_exec_print("ra", data->stack_a, data->stack_b);
+	if (g == ONES)
+		ps_exec_store(RB, data->stack_a, data->stack_b, data->ops);
+	if (g != ONES)
+		ps_exec_store(PA, data->stack_a, data->stack_b, data->ops);
+	if (g != OTHER && g != ONES)
+		ps_exec_store(RA, data->stack_a, data->stack_b, data->ops);
+	return (ps_get_error());
 }
 
-static void	resolve_group_step(t_group *group, int side, t_lars_data *data)
+static t_status	resolve_family_step(t_family *family, int side,
+					t_lars_data *data)
 {
 	t_list	**stack;
 	int		i;
@@ -45,35 +48,38 @@ static void	resolve_group_step(t_group *group, int side, t_lars_data *data)
 		stack = data->stack_a;
 	else
 		stack = data->stack_b;
-	i = group->total_size - group->size_to_index;
+	i = family->total_size - family->size_to_index;
 	while (i > 0)
 	{
 		value_group = which_group((long)(*stack)->content, data);
-		resolve_v(group, side, value_group, data);
+		if (resolve_v(family, side, value_group, data) != OK)
+			return (ps_get_error());
 		i--;
 	}
-	group->size_to_index
-		+= group_size(group->ones[group->index], data)
-		+ group->threes[group->index].size;
-	group->index++;
+	family->size_to_index
+		+= group_size(family->ones[family->index], data)
+		+ family->threes[family->index].size;
+	family->index++;
+	return (OK);
 }
 
-void	resolve_group(t_group *group, int starting_side, t_lars_data *data)
+t_status	resolve_family(t_family *family, int starting_side,
+				t_lars_data *data)
 {
 	int	side0;
 	int	side1;
 
 	side0 = 0;
-	side1 = 1;
 	if (starting_side == 1)
-	{
 		side0 = 1;
-		side1 = 0;
-	}
-	while (group->index < group->size)
+	side1 = 1 - side0;
+	while (family->index < family->size)
 	{
-		resolve_group_step(group, side0, data);
-		if (group->index < group->size)
-			resolve_group_step(group, side1, data);
+		if (resolve_family_step(family, side0, data) != OK)
+			return (ps_get_error());
+		if (family->index < family->size)
+			if (resolve_family_step(family, side1, data) != OK)
+				return (ps_get_error());
 	}
+	return (OK);
 }

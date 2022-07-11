@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/23 15:18:20 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2021/09/23 15:18:20 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/07/06 12:52:15 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,26 @@
 #include "libft.h"
 #include "lars_util.h"
 
-void	sort_group(int group_size, t_list **stack_a)
+t_status	sort_group(int group_size, t_list **stack_a, t_lars_data *data)
 {
 	if (group_size <= 1)
-		return ;
+		return (OK);
 	if ((*stack_a)->content > (*stack_a)->next->content)
-		ps_exec_print("sa", stack_a, NULL);
+		ps_exec_store(SA, stack_a, NULL, data->ops);
 	if (group_size == 2)
-		return ;
+		return (ps_get_error());
 	if ((*stack_a)->next->content > (*stack_a)->next->next->content)
 	{
-		ps_exec_print("ra", stack_a, NULL);
-		ps_exec_print("sa", stack_a, NULL);
-		ps_exec_print("rra", stack_a, NULL);
+		ps_exec_store(RA, stack_a, NULL, data->ops);
+		ps_exec_store(SA, stack_a, NULL, data->ops);
+		ps_exec_store(RRA, stack_a, NULL, data->ops);
 	}
 	if ((*stack_a)->content > (*stack_a)->next->content)
-		ps_exec_print("sa", stack_a, NULL);
+		ps_exec_store(SA, stack_a, NULL, data->ops);
+	return (ps_get_error());
 }
 
-void	sort_left(t_list **stack_a, t_lars_data *data)
+t_status	sort_left(t_list **stack_a, t_lars_data *data)
 {
 	int	len;
 	int	size;
@@ -41,17 +42,20 @@ void	sort_left(t_list **stack_a, t_lars_data *data)
 	while (len > 0)
 	{
 		size = group_size(which_group((long)(*stack_a)->content, data), data);
-		sort_group(size, stack_a);
+		if (sort_group(size, stack_a, data) != OK)
+			return (ps_get_error());
 		len -= size;
 		while (size > 0)
 		{
-			ps_exec_print("ra", stack_a, NULL);
+			if (ps_exec_store(RA, stack_a, NULL, data->ops) != OK)
+				return (ps_get_error());
 			size--;
 		}
 	}
+	return (OK);
 }
 
-void	sort_right(t_list **stack_a, t_list **stack_b, t_lars_data *data)
+t_status	sort_right(t_list **stack_a, t_list **stack_b, t_lars_data *data)
 {
 	int	size;
 	int	i;
@@ -62,9 +66,12 @@ void	sort_right(t_list **stack_a, t_list **stack_b, t_lars_data *data)
 		i = 0;
 		while (i < size)
 		{
-			ps_exec_print("pa", stack_a, stack_b);
+			if (ps_exec_store(PA, stack_a, stack_b, data->ops) != OK)
+				return (ps_get_error());
 			i++;
 		}
-		sort_group(size, stack_a);
+		if (sort_group(size, stack_a, data) != OK)
+			return (ps_get_error());
 	}
+	return (OK);
 }

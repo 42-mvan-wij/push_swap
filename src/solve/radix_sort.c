@@ -6,14 +6,14 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/03 15:07:10 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/02/23 14:44:17 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/07/06 14:52:50 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "operations.h"
 
-static void	move_to_b(t_list **stack_a, t_list **stack_b, int digit, int base)
+static t_status	move_to_b(t_data *data, int digit, int base)
 {
 	int	i;
 	int	val;
@@ -22,33 +22,40 @@ static void	move_to_b(t_list **stack_a, t_list **stack_b, int digit, int base)
 	i = 0;
 	while (i < base - 1)
 	{
-		len = ft_lstsize(*stack_a);
+		len = ft_lstsize(data->stack_a);
 		while (len > 0)
 		{
-			val = ((long)(*stack_a)->content / digit) % base;
+			val = ((long)(data->stack_a)->content / digit) % base;
 			if (val == i)
-				ps_exec_print("pb", stack_a, stack_b);
+				ps_exec_store(PB, &data->stack_a, &data->stack_b, &data->ops);
 			else
-				ps_exec_print("ra", stack_a, stack_b);
+				ps_exec_store(RA, &data->stack_a, &data->stack_b, &data->ops);
+			if (ps_get_error() != OK)
+				return (ps_get_error());
 			len--;
 		}
 		i++;
 	}
+	return (OK);
 }
 
-void	radix_sort(t_list **stack_a, t_list **stack_b, int base)
+t_status	radix_sort(t_data *data, int base)
 {
 	int		len;
 	int		digit;
 
-	len = ft_lstsize(*stack_a);
+	len = ft_lstsize(data->stack_a);
 	digit = 1;
 	while ((len - 1) / digit != 0)
 	{
-		move_to_b(stack_a, stack_b, digit, base);
-		while (*stack_b != NULL)
-			ps_exec_print("pa", stack_a, stack_b);
+		if (move_to_b(data, digit, base) != OK)
+			return (ps_get_error());
+		while (data->stack_b != NULL)
+			ps_exec_store(PA, &data->stack_a, &data->stack_b, &data->ops);
+		if (ps_get_error() != OK)
+			return (ps_get_error());
 		digit *= base;
-		len = ft_lstsize(*stack_a);
+		len = ft_lstsize(data->stack_a);
 	}
+	return (OK);
 }

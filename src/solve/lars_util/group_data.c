@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   util1.c                                            :+:    :+:            */
+/*   group_data.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/23 14:28:58 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2021/09/23 14:28:58 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/07/05 12:34:39 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,20 +33,20 @@ int	group_size(int n, t_lars_data *data)
 	return (group_size + 1);
 }
 
-int	in_group(int v, t_group *group)
+t_group_type	in_group(int v, t_family *group)
 {
 	if (group->ones[group->index] == v)
-		return (1);
+		return (ONES);
 	if (group->threes[group->index].low == v)
-		return (2);
+		return (THREES_LOW);
 	if (group->threes[group->index].middle == v)
-		return (3);
+		return (THREES_MIDDLE);
 	if (group->threes[group->index].high == v)
-		return (4);
-	return (0);
+		return (THREES_HIGH);
+	return (OTHER);
 }
 
-int	anywhere_in_group(int v, t_group *group)
+int	anywhere_in_family(int v, t_family *group)
 {
 	int	i;
 

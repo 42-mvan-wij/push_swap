@@ -6,26 +6,29 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/26 14:15:36 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/06/23 13:42:27 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/07/07 14:39:21 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "utils.h"
 
-static void	ps_insert_sorted(t_list **sorted, void *val)
+static t_status	ps_insert_sorted(t_list **sorted, void *val)
 {
 	t_list	*cur;
 
 	cur = *sorted;
 	if (*sorted == NULL || (long)val < (long)cur->content)
 	{
-		ft_lstadd_front(sorted, ps_protect(ft_lstnew(val)));
-		return ;
+		if (ft_lstnew_front(val, sorted) == NULL)
+			return (ps_set_error(E_MALLOC));
+		return (OK);
 	}
 	while (cur->next != NULL && (long)val > (long)cur->next->content)
 		cur = cur->next;
-	ft_lstadd_front(&cur->next, ps_protect(ft_lstnew(val)));
+	if (ft_lstnew_front(val, &cur->next) == NULL)
+		return (ps_set_error(E_MALLOC));
+	return (OK);
 }
 
 long	ps_lin_search(t_list *lst, void *val)
@@ -40,11 +43,10 @@ long	ps_lin_search(t_list *lst, void *val)
 		lst = lst->next;
 		index++;
 	}
-	ps_protect(NULL);
 	return (-1);
 }
 
-void	ps_error_if_duplicates(t_list *sorted)
+bool	ps_has_duplicates(t_list *sorted)
 {
 	void	*prev;
 
@@ -53,13 +55,14 @@ void	ps_error_if_duplicates(t_list *sorted)
 	while (sorted != NULL)
 	{
 		if (sorted->content == prev)
-			ps_protect(NULL);
+			return (true);
 		prev = sorted->content;
 		sorted = sorted->next;
 	}
+	return (false);
 }
 
-void	ps_transform_to_sorted_indeces(t_list **stack)
+t_status	ps_transform_to_sorted_indeces(t_list **stack)
 {
 	t_list	*sorted;
 	t_list	*tmp_stack;
@@ -68,10 +71,15 @@ void	ps_transform_to_sorted_indeces(t_list **stack)
 	tmp_stack = *stack;
 	while (tmp_stack != NULL)
 	{
-		ps_insert_sorted(&sorted, tmp_stack->content);
+		if (ps_insert_sorted(&sorted, tmp_stack->content) != OK)
+		{
+			ft_lstclear(&sorted, NULL);
+			return (ps_get_error());
+		}
 		tmp_stack = tmp_stack->next;
 	}
-	ps_error_if_duplicates(sorted);
+	if (ps_has_duplicates(sorted))
+		return (ps_set_error(E_DUPLICATE));
 	tmp_stack = *stack;
 	while (tmp_stack != NULL)
 	{
@@ -79,4 +87,5 @@ void	ps_transform_to_sorted_indeces(t_list **stack)
 		tmp_stack = tmp_stack->next;
 	}
 	ft_lstclear(&sorted, NULL);
+	return (OK);
 }

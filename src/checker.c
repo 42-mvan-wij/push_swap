@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/19 11:59:44 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2021/08/31 14:09:33 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/07/06 14:02:45 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "operations.h"
 #include "utils.h"
 
-void	read_cmds(t_list **cmds)
+t_status	read_cmds(t_list **cmds)
 {
 	int		res;
 	char	*cmd;
@@ -24,11 +24,20 @@ void	read_cmds(t_list **cmds)
 	res = get_next_line(STDIN_FILENO, &cmd);
 	while (res == 1)
 	{
-		ft_lstadd_back(cmds, ps_protect(ft_lstnew(cmd)));
+		if (ft_lstnew_front(cmd, cmds) == NULL)
+		{
+			ft_lstclear(cmds, NULL);
+			return (ps_set_error(E_MALLOC));
+		}
 		res = get_next_line(STDIN_FILENO, &cmd);
 	}
 	if (res == -1)
-		ps_protect(NULL);
+	{
+		ft_lstclear(cmds, NULL);
+		return (ps_set_error(E_GNL));
+	}
+	ft_lstreverse(cmds);
+	return (OK);
 }
 
 int	main(int argc, char **argv)
@@ -37,10 +46,14 @@ int	main(int argc, char **argv)
 	t_list	*stack_b;
 	t_list	*cmds;
 
-	stack_a = ps_init_stack(argc - 1, &argv[1]);
-	stack_b = NULL;
 	cmds = NULL;
-	read_cmds(&cmds);
+	stack_b = NULL;
+	if (ps_init_stack(argc - 1, &argv[1], &stack_a) != OK
+		|| read_cmds(&cmds) != OK)
+	{
+		write(STDOUT_FILENO, "Error\n", 6);
+		return (EXIT_FAILURE);
+	}
 	while (cmds != NULL)
 	{
 		ps_exec(cmds->content, &stack_a, &stack_b);
