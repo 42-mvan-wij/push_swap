@@ -6,13 +6,14 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/23 14:59:41 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/07/11 17:30:37 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/07/11 17:37:21 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LARS_UTIL_H
 # define LARS_UTIL_H
 
+# include "operations.h"
 # include "libft.h"
 # include "utils.h"
 
@@ -58,9 +59,7 @@ typedef enum e_3_order
 typedef struct s_lars_data
 {
 	t_family	families[3];
-	t_list		**stack_a;
-	t_list		**stack_b;
-	t_list		**ops;
+	t_data		*ps_data;
 	int			total_size;
 	int			num_groups;
 }			t_lars_data;

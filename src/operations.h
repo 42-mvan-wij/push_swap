@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/24 22:59:12 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/07/11 12:40:14 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/07/11 17:36:07 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,7 @@ typedef struct s_data
 }	t_data;
 
 t_status	ps_reduce_ops(t_list **ops);
-t_status	ps_exec_store(t_cmd cmd, t_list **stack_a, t_list **stack_b,
-				t_list **ops);
+t_status	ps_exec_store(t_cmd cmd, t_data *data);
 void		ps_print_ops(t_list *ops);
 int			ps_exec(t_cmd cmd, t_list **stack_a, t_list **stack_b);
 void		ps_undo(t_cmd cmd, t_list **stack_a, t_list **stack_b);

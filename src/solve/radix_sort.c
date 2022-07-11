@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/03 15:07:10 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/07/06 14:52:50 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/07/11 17:41:59 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ static t_status	move_to_b(t_data *data, int digit, int base)
 		{
 			val = ((long)(data->stack_a)->content / digit) % base;
 			if (val == i)
-				ps_exec_store(PB, &data->stack_a, &data->stack_b, &data->ops);
+				ps_exec_store(PB, data);
 			else
-				ps_exec_store(RA, &data->stack_a, &data->stack_b, &data->ops);
+				ps_exec_store(RA, data);
 			if (ps_get_error() != OK)
 				return (ps_get_error());
 			len--;
@@ -51,7 +51,7 @@ t_status	radix_sort(t_data *data, int base)
 		if (move_to_b(data, digit, base) != OK)
 			return (ps_get_error());
 		while (data->stack_b != NULL)
-			ps_exec_store(PA, &data->stack_a, &data->stack_b, &data->ops);
+			ps_exec_store(PA, data);
 		if (ps_get_error() != OK)
 			return (ps_get_error());
 		digit *= base;

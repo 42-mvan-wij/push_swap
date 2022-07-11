@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/23 15:12:25 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/07/11 17:29:11 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/07/11 17:41:42 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,19 @@ static t_status	resolve_v(t_family *group, int side, int value,
 	if (side == 0)
 	{
 		if (g == OTHER || g == ONES)
-			ps_exec_store(PB, data->stack_a, data->stack_b, data->ops);
+			ps_exec_store(PB, data->ps_data);
 		if (g == ONES)
-			ps_exec_store(RB, data->stack_a, data->stack_b, data->ops);
+			ps_exec_store(RB, data->ps_data);
 		if (g != OTHER && g != ONES)
-			ps_exec_store(RA, data->stack_a, data->stack_b, data->ops);
+			ps_exec_store(RA, data->ps_data);
 		return (ps_get_error());
 	}
 	if (g == ONES)
-		ps_exec_store(RB, data->stack_a, data->stack_b, data->ops);
+		ps_exec_store(RB, data->ps_data);
 	if (g != ONES)
-		ps_exec_store(PA, data->stack_a, data->stack_b, data->ops);
+		ps_exec_store(PA, data->ps_data);
 	if (g != OTHER && g != ONES)
-		ps_exec_store(RA, data->stack_a, data->stack_b, data->ops);
+		ps_exec_store(RA, data->ps_data);
 	return (ps_get_error());
 }
 
@@ -45,9 +45,9 @@ static t_status	resolve_family_step(t_family *family, int side,
 	int		value_group;
 
 	if (side == 0)
-		stack = data->stack_a;
+		stack = &data->ps_data->stack_a;
 	else
-		stack = data->stack_b;
+		stack = &data->ps_data->stack_b;
 	i = family->total_size - family->size_to_index;
 	while (i > 0)
 	{

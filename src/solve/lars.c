@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/07 17:49:52 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/07/11 17:12:59 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/07/11 17:39:32 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,14 @@ t_status	split_to_three(t_lars_data *data)
 	i = 0;
 	while (i < data->total_size)
 	{
-		top_value_group = which_group((long)(*data->stack_a)->content, data);
+		top_value_group = which_group((long)data->ps_data->stack_a->content, data);
 		if (anywhere_in_family(top_value_group, &data->families[0]))
-			ps_exec_store(RA, data->stack_a, data->stack_b, data->ops);
+			ps_exec_store(RA, data->ps_data);
 		else
 		{
-			ps_exec_store(PB, data->stack_a, data->stack_b, data->ops);
+			ps_exec_store(PB, data->ps_data);
 			if (anywhere_in_family(top_value_group, &data->families[2]))
-				ps_exec_store(RB, data->stack_a, data->stack_b, data->ops);
+				ps_exec_store(RB, data->ps_data);
 		}
 		if (ps_get_error() != OK)
 			return (ps_get_error());
@@ -66,9 +66,7 @@ void	fix_group_sizes(t_lars_data *data)
 
 t_status	create_data(int num_groups, t_data *ps_data, t_lars_data *data)
 {
-	data->stack_a = &ps_data->stack_a;
-	data->stack_b = &ps_data->stack_b;
-	data->ops = &ps_data->ops;
+	data->ps_data = ps_data;
 	data->total_size = ft_lstsize(ps_data->stack_a);
 	data->num_groups = num_groups;
 	ft_bzero(data->families, sizeof(t_family) * 3);
@@ -90,14 +88,14 @@ t_status	solve_threes(t_family *group, t_lars_data *data)
 		i = group->threes[group->index].size;
 		while (i > 0)
 		{
-			value_group = which_group((long)(*data->stack_a)->content, data);
+			value_group = which_group((long)data->ps_data->stack_a->content, data);
 			which_three = in_group(value_group, group);
 			if (which_three == THREES_LOW || which_three == THREES_MIDDLE)
-				ps_exec_store(PB, data->stack_a, data->stack_b, data->ops);
+				ps_exec_store(PB, data->ps_data);
 			else
-				ps_exec_store(RA, data->stack_a, data->stack_b, data->ops);
+				ps_exec_store(RA, data->ps_data);
 			if (which_three == THREES_LOW)
-				ps_exec_store(RB, data->stack_a, data->stack_b, data->ops);
+				ps_exec_store(RB, data->ps_data);
 			if (ps_get_error() != OK)
 				return (ps_get_error());
 			i--;

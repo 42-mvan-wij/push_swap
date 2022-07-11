@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/29 11:35:23 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/07/07 14:38:11 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/07/11 17:35:53 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,10 @@ void	ps_exec_print2(t_cmd cmd, t_list **stack_a, t_list **stack_b)
 	ps_print_cmd(cmd);
 }
 
-t_status	ps_exec_store(t_cmd cmd, t_list **stack_a, t_list **stack_b,
-			t_list **ops)
+t_status	ps_exec_store(t_cmd cmd, t_data *data)
 {
-	ps_exec(cmd, stack_a, stack_b);
-	if (ft_lstnew_front((void *)cmd, ops) == NULL)
+	ps_exec(cmd, &data->stack_a, &data->stack_b);
+	if (ft_lstnew_front((void *)cmd, &data->ops) == NULL)
 		return (ps_set_error(E_MALLOC));
 	return (OK);
 }
