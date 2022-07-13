@@ -6,13 +6,14 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/31 14:13:06 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/07/13 15:56:14 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/07/13 17:27:10 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "operations.h"
 #include "utils.h"
+#include "brute_force_utils.h"
 #include "solve.h"
 #include <stdlib.h>
 #include <unistd.h>
@@ -37,19 +38,6 @@ void	undo_all(t_list **cmds, t_list **stack_a, t_list **stack_b)
 		free(*cmds);
 		*cmds = next;
 	}
-}
-
-int	power(int base, int pow)
-{
-	int	ans;
-
-	ans = 1;
-	while (pow != 0)
-	{
-		pow--;
-		ans *= base;
-	}
-	return (ans);
 }
 
 t_status	do_setup_ops(t_bf_data *data, t_data *ps_data)
