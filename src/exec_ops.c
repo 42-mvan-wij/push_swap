@@ -81,15 +81,6 @@ t_status	ps_exec_store(t_cmd cmd, t_data *data)
 	return (OK);
 }
 
-void	ps_lstnext(t_list **lst, void (*del)(void *content))
-{
-	t_list	*tmp;
-
-	tmp = (*lst)->next;
-	ft_lstdelone(*lst, del);
-	*lst = tmp;
-}
-
 bool	either(t_cmd first, t_cmd second, t_cmd a, t_cmd b)
 {
 	return ((first == a && second == b) || (first == b && second == a));
@@ -177,7 +168,7 @@ t_status	ps_reduce_ops_once(t_list **ops, bool *did_reduce)
 		return (OK);
 	while (amount_replaced > 0)
 	{
-		ps_lstnext(ops, NULL);
+		ft_lstnext(ops, NULL);
 		amount_replaced--;
 	}
 	if (replacer != NULL)
