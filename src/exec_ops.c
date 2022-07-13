@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/29 11:35:23 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/07/11 17:35:53 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/07/13 16:27:53 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 #include "utils.h"
 #include "operations.h"
 #include <unistd.h>
-
-typedef int	(*t_exec_fn)(t_list **stack_a, t_list **stack_b);
 
 int	ps_exec(t_cmd cmd, t_list **stack_a, t_list **stack_b)
 {
@@ -44,7 +42,7 @@ int	ps_exec(t_cmd cmd, t_list **stack_a, t_list **stack_b)
 	return (0);
 }
 
-void	ps_print_cmd(t_cmd cmd)
+static void	ps_print_cmd(t_cmd cmd)
 {
 	static char	*strs[] = {
 	[SA] = "sa",
@@ -67,12 +65,6 @@ void	ps_print_cmd(t_cmd cmd)
  * ra => move top to bottom
  * rra => move bottom to top
  */
-void	ps_exec_print2(t_cmd cmd, t_list **stack_a, t_list **stack_b)
-{
-	ps_exec(cmd, stack_a, stack_b);
-	ps_print_cmd(cmd);
-}
-
 t_status	ps_exec_store(t_cmd cmd, t_data *data)
 {
 	ps_exec(cmd, &data->stack_a, &data->stack_b);
@@ -81,12 +73,30 @@ t_status	ps_exec_store(t_cmd cmd, t_data *data)
 	return (OK);
 }
 
-bool	either(t_cmd first, t_cmd second, t_cmd a, t_cmd b)
+static bool	either(t_cmd first, t_cmd second, t_cmd a, t_cmd b)
 {
 	return ((first == a && second == b) || (first == b && second == a));
 }
 
-t_cmd	ps_reduces_to(t_cmd first, t_cmd second)
+static t_status	listify_reduction(t_list **reduction, int amount, int *replaced,
+			t_cmd cmds[])
+{
+	int		i;
+
+	*replaced = amount;
+	*reduction = NULL;
+	i = 0;
+	while (cmds[i] != NONE)
+	{
+		if (ft_lstnew_front((void *)cmds[i], reduction) == NULL)
+			return (ps_set_error(E_MALLOC));
+		i++;
+	}
+	ft_lstreverse(reduction);
+	return (OK);
+}
+
+static t_cmd	ps_reduce_2(t_cmd first, t_cmd second)
 {
 	if ((first == SA && second == SA) || (first == SB && second == SB)
 		|| (first == SS && second == SS) || either(first, second, PA, PB)
@@ -114,32 +124,14 @@ t_cmd	ps_reduces_to(t_cmd first, t_cmd second)
 	return (NO_REDUCTION);
 }
 
-t_status	listify_reduction(t_list **reduction, int amount, int *replaced,
-			t_cmd cmds[])
-{
-	int		i;
-
-	*replaced = amount;
-	*reduction = NULL;
-	i = 0;
-	while (cmds[i] != NONE)
-	{
-		if (ft_lstnew_front((void *)cmds[i], reduction) == NULL)
-			return (ps_set_error(E_MALLOC));
-		i++;
-	}
-	ft_lstreverse(reduction);
-	return (OK);
-}
-
-t_status	ps_reduces_two(t_list *ops, int *replaced, t_list **reduction)
+static t_status	ps_reduce(t_list *ops, int *replaced, t_list **reduction)
 {
 	t_cmd		reduction_with_two;
 	t_cmd const	first = (t_cmd)ops->content;
 	t_cmd const	second = (t_cmd)ops->next->content;
 	t_cmd		third;
 
-	reduction_with_two = ps_reduces_to(first, second);
+	reduction_with_two = ps_reduce_2(first, second);
 	if (reduction_with_two != NO_REDUCTION)
 		return (listify_reduction(reduction, 2, replaced,
 				(t_cmd[]){reduction_with_two, NONE}));
@@ -155,14 +147,14 @@ t_status	ps_reduces_two(t_list *ops, int *replaced, t_list **reduction)
 	return (listify_reduction(reduction, 0, replaced, (t_cmd[]){NONE}));
 }
 
-t_status	ps_reduce_ops_once(t_list **ops, bool *did_reduce)
+static t_status	ps_reduce_ops_once(t_list **ops, bool *did_reduce)
 {
 	int		amount_replaced;
 	t_list	*replacer;
 
 	if (*ops == NULL || (*ops)->next == NULL)
 		return (OK);
-	if (ps_reduces_two(*ops, &amount_replaced, &replacer) != OK)
+	if (ps_reduce(*ops, &amount_replaced, &replacer) != OK)
 		return (ps_get_error());
 	if (amount_replaced == 0)
 		return (OK);
