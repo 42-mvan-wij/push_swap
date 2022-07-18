@@ -38,27 +38,9 @@ t_status	routine(t_data *data)
 	if (select_and_run(data, ft_lstsize(data->stack_a)) != OK)
 		return (ps_get_error());
 	ft_lstreverse(&data->ops);
-	ft_putnbr_fd(ft_lstsize(data->ops), 2); // tmp
-	ft_putchar_fd('\n', 2); // tmp
 	if (ps_reduce_ops(&data->ops) != OK)
 		return (ps_get_error());
-	ft_putnbr_fd(ft_lstsize(data->ops), 2); // tmp
-	ft_putchar_fd('\n', 2); // tmp
 	return (OK);
-}
-
-void	print_error(void)
-{
-	static char	*error_text[] = {
-	[OK] = "lol, get prankt!",
-	[E_MALLOC] = "Error",
-	[E_EXPECTED_INT] = "Error",
-	[E_DUPLICATE] = "Error",
-	[E_GNL] = "Error",
-	[E_TOO_DEEP] = "Error",
-	};
-
-	ft_putendl_fd(error_text[ps_get_error()], STDERR_FILENO);
 }
 
 int	main(int argc, char *argv[])

@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/24 17:22:52 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/07/06 14:03:24 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/07/14 12:06:19 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <unistd.h>
 #include "libft.h"
 #include "utils.h"
+#include "operations.h"
 
 t_status	ps_init_stack(int size, char **nums, t_list **stack)
 {
@@ -55,20 +56,7 @@ int	ps_is_sorted(t_list *stack_a, t_list *stack_b)
 	return (1);
 }
 
-static t_status	*get_error_ptr(void)
+bool	either(t_cmd first, t_cmd second, t_cmd a, t_cmd b)
 {
-	static t_status	error = OK;
-
-	return (&error);
-}
-
-t_status	ps_get_error(void)
-{
-	return (*get_error_ptr());
-}
-
-t_status	ps_set_error(t_status status)
-{
-	*get_error_ptr() = status;
-	return (status);
+	return ((first == a && second == b) || (first == b && second == a));
 }

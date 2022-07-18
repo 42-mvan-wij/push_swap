@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/07 17:49:52 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/07/11 17:39:32 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/07/13 14:48:37 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ t_status	split_to_three(t_lars_data *data)
 	i = 0;
 	while (i < data->total_size)
 	{
-		top_value_group = which_group((long)data->ps_data->stack_a->content, data);
+		top_value_group = which_group((long)data->ps_data->stack_a->content, \
+										data);
 		if (anywhere_in_family(top_value_group, &data->families[0]))
 			ps_exec_store(RA, data->ps_data);
 		else
@@ -79,7 +80,6 @@ t_status	create_data(int num_groups, t_data *ps_data, t_lars_data *data)
 t_status	solve_threes(t_family *group, t_lars_data *data)
 {
 	t_group_type	which_three;
-	int				value_group;
 	int				i;
 
 	group->index = 0;
@@ -88,8 +88,8 @@ t_status	solve_threes(t_family *group, t_lars_data *data)
 		i = group->threes[group->index].size;
 		while (i > 0)
 		{
-			value_group = which_group((long)data->ps_data->stack_a->content, data);
-			which_three = in_group(value_group, group);
+			which_three = in_group(which_group(
+						(long)data->ps_data->stack_a->content, data), group);
 			if (which_three == THREES_LOW || which_three == THREES_MIDDLE)
 				ps_exec_store(PB, data->ps_data);
 			else
