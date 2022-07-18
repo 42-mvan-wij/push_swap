@@ -6,7 +6,7 @@
 #    By: mvan-wij <mvan-wij@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/07 17:00:31 by mvan-wij      #+#    #+#                  #
-#    Updated: 2022/03/24 15:36:23 by mvan-wij      ########   odam.nl          #
+#    Updated: 2022/07/18 13:40:32 by mvan-wij      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,7 +76,7 @@ SRCDIR = src
 OBJDIR = obj
 
 OBJECTS = $(patsubst $(SRCDIR)/%,$(OBJDIR)/%, $(SOURCES:c=o))
-INCLUDES = $(addprefix -I,$(dir $(HEADERS)))
+INCLUDES = $(addprefix -I,$(sort $(dir $(HEADERS))))
 
 .PHONY: all clean fclean re debug bonus
 
