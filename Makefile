@@ -6,7 +6,7 @@
 #    By: mvan-wij <mvan-wij@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/07 17:00:31 by mvan-wij      #+#    #+#                  #
-#    Updated: 2022/07/18 13:40:32 by mvan-wij      ########   odam.nl          #
+#    Updated: 2022/07/20 11:49:20 by mvan-wij      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,18 +27,19 @@ HEADERS = 	libft/libft.h		\
 			src/utils.h			\
 			src/error.h			\
 			src/operations.h	\
+			src/indeces.h
 
 SOURCES =	src/exec_ops.c	\
 			src/rotate.c	\
 			src/swap_push.c	\
 			src/utils.c		\
+			src/indeces.c	\
 			src/error.c
 
 ifndef BONUS
 # Not Bonus
 SOURCES +=	src/push_swap.c							\
 			src/solve/radix_sort.c					\
-			src/indeces.c							\
 			src/reduce.c							\
 			src/solve/radix_calc_core.c				\
 			src/solve/radix_calc.c					\
@@ -53,8 +54,7 @@ SOURCES +=	src/push_swap.c							\
 			src/solve/lars_util/group_data.c		\
 			src/solve/lars_util/resolve_family.c
 
-HEADERS +=	src/indeces.h					\
-			src/solve/solve.h				\
+HEADERS +=	src/solve/solve.h				\
 			src/solve/lars_util/lars_util.h	\
 			src/solve/brute_force_utils.h
 CFLAGS  +=

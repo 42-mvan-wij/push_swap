@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/19 11:59:44 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/07/18 13:07:11 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/07/20 11:48:20 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "libft.h"
 #include "operations.h"
 #include "utils.h"
+#include "indeces.h"
 
 t_cmd	get_command(char *str)
 {
@@ -40,13 +41,6 @@ t_cmd	get_command(char *str)
 		return (RRR);
 	ps_set_error(E_INVALID_CMD);
 	return (NONE);
-}
-
-void	*malloc_fail_check(void *ptr)
-{
-	if (ptr == NULL)
-		ps_set_error(E_MALLOC);
-	return (ptr);
 }
 
 t_status	add_cmd(t_list **cmds, char *cmd_str)
@@ -95,6 +89,16 @@ t_status	read_cmds(t_list **cmds)
 	return (ps_set_error(OK));
 }
 
+static t_status	init(int argc, char **argv, t_list **stack_a, t_list **cmds)
+{
+	if (ps_init_stack(argc - 1, &argv[1], stack_a) != OK
+		|| read_cmds(cmds) != OK)
+		return (ps_get_error());
+	if (ps_transform_to_sorted_indeces(stack_a) != OK)
+		return (ps_get_error());
+	return (OK);
+}
+
 int	main(int argc, char **argv)
 {
 	t_list	*stack_a;
@@ -103,8 +107,7 @@ int	main(int argc, char **argv)
 
 	cmds = NULL;
 	stack_b = NULL;
-	if (ps_init_stack(argc - 1, &argv[1], &stack_a) != OK
-		|| read_cmds(&cmds) != OK)
+	if (init(argc, argv, &stack_a, &cmds) != OK)
 	{
 		ft_lstclear(&stack_a, NULL);
 		print_error();
