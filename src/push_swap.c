@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/03 14:59:22 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/07/07 15:55:35 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/07/20 11:52:00 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ t_status	select_and_run(t_data *data, int size)
 
 t_status	routine(t_data *data)
 {
-	if (ps_is_sorted(data->stack_a, data->stack_b))
-		return (OK);
 	if (ps_transform_to_sorted_indeces(&data->stack_a) != OK)
 		return (ps_get_error());
+	if (ps_is_sorted(data->stack_a, data->stack_b))
+		return (OK);
 	if (select_and_run(data, ft_lstsize(data->stack_a)) != OK)
 		return (ps_get_error());
 	ft_lstreverse(&data->ops);
