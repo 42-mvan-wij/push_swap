@@ -31,13 +31,15 @@ t_cmd	get_command(char *str)
 		return (PB);
 	if (ft_strncmp(str, "ra", 3) == 0)
 		return (RA);
+	if (ft_strncmp(str, "rb", 3) == 0)
+		return (RB);
 	if (ft_strncmp(str, "rr", 3) == 0)
 		return (RR);
-	if (ft_strncmp(str, "rra", 3) == 0)
+	if (ft_strncmp(str, "rra", 4) == 0)
 		return (RRA);
-	if (ft_strncmp(str, "rrb", 3) == 0)
+	if (ft_strncmp(str, "rrb", 4) == 0)
 		return (RRB);
-	if (ft_strncmp(str, "rrr", 3) == 0)
+	if (ft_strncmp(str, "rrr", 4) == 0)
 		return (RRR);
 	ps_set_error(E_INVALID_CMD);
 	return (NONE);
